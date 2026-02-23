@@ -38,6 +38,16 @@ The audit becomes the sales tool. The implementation becomes the product. A busi
 
 ---
 
+## The Bigger Picture: Agent-Ready Brands
+
+Search is changing. When someone asks ChatGPT "what's the best handmade leather bag brand in the UK" or asks Claude to "find me a design studio in Dublin", the answer depends on what's written online - structured data, detailed product pages, clear service descriptions, FAQs, proper metadata. Most small businesses have almost none of this.
+
+The audit already scores AI discoverability. The next step is fixing it - not just for Google, but for the AI tools that are increasingly where people start. An agent that can rewrite product pages, add structured data, create FAQ sections, and build the kind of detailed written content that LLMs actually cite when recommending businesses.
+
+This is the go-to-market for agents: make small businesses findable and recommendable by AI. Not "SEO" in the old sense - but making sure that when an AI agent is helping someone find a product, book a service, or compare options, the business actually shows up with enough context to be recommended.
+
+---
+
 ## How to Use It
 
 **Claude Code Skill** — install the skill, run audits from the terminal:
