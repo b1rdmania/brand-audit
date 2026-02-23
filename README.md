@@ -1,6 +1,6 @@
 # Brand Audit Tool
 
-Most small businesses are invisible to AI. Their product pages are thin, their metadata is missing, their story isn't written down anywhere an LLM can find it. When someone asks ChatGPT for a recommendation, these businesses don't exist. And the owner was never going to fix that — they run a business, not an SEO agency.
+Most small businesses are invisible to AI. Their product pages are thin, their metadata is missing, their story isn't written down anywhere an LLM can find it. When someone asks ChatGPT for a recommendation, these businesses don't exist. And the owner was never going to fix that. They're not going to learn structured data, meta tags, and how LLMs decide what to recommend. They've run their business for years without thinking about this. It was never going to happen on its own.
 
 This tool audits that gap and closes it. Give it a URL, get back a report scoring every dimension of online presence — not just for Google, but for the AI agents that are replacing it. Then fix what's broken, automatically.
 
