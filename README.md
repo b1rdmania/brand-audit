@@ -25,7 +25,7 @@ This tool audits that gap and closes it. Give it a URL, get back a consultancy-g
 
 **Next: Self-serve audits** — API backend that chains the scripts and Claude API. User enters a URL, gets a report back in 10-15 minutes. ~$2-5 in API cost per audit.
 
-**Then: Automated fixes** — The audit tells you what's wrong. This step fixes it. A business owner reads the report, clicks "fix these", and a Claude agent does the work — fixing meta tags, setting up Google Business, submitting sitemaps. The stuff that normally costs £500-2000 and takes weeks.
+**Then: Automated fixes** — The audit tells you what's wrong. This step fixes it. A business owner reads the report, clicks "fix these", and a Claude agent does the work — fixing meta tags, setting up Google Business, submitting sitemaps. These aren't people who were going to learn SEO and structured data on their own. They run a business. If it hasn't happened in five years, it's not going to happen now — unless someone (or something) just does it for them.
 
 All generated content runs through a brand voice extraction first. The agent analyses existing copy — website, blog posts, social captions, however the owner actually writes — and builds a voice profile before producing anything. New product descriptions, About pages, and blog posts sound like the business owner wrote them, not like AI.
 
