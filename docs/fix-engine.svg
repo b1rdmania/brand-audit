@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="640" viewBox="0 0 1040 640">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1b1b1f" />
+    </marker>
+    <style>
+      text { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; }
+      .title { font-family: Georgia, "Times New Roman", serif; }
+    </style>
+    <!-- hand-drawn effect filter -->
+    <filter id="rough" x="-2%" y="-2%" width="104%" height="104%">
+      <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="2" result="noise" seed="2"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1040" height="560" fill="#faf9f7"/>
+
+  <!-- Title -->
+  <text x="40" y="42" font-size="28" fill="#1b1b1f" class="title" font-weight="bold">Automated Fix Engine</text>
+  <text x="40" y="68" font-size="16" fill="#868e96">From audit report to agent-ready brand</text>
+
+  <!-- AUDIT REPORT box -->
+  <rect x="40" y="110" width="220" height="300" rx="3" stroke="#1b1b1f" fill="#ffffff" stroke-width="2" filter="url(#rough)"/>
+  <text x="60" y="103" font-size="13" fill="#d97757" font-weight="600" letter-spacing="0.5">AUDIT REPORT</text>
+
+  <!-- audit-data.json pill -->
+  <rect x="65" y="138" width="170" height="34" rx="4" stroke="#1b1b1f" fill="#f1f3f5" stroke-width="1" filter="url(#rough)"/>
+  <text x="150" y="160" font-size="13" fill="#1b1b1f" text-anchor="middle">audit-data.json</text>
+
+  <!-- Audit contents -->
+  <text x="70" y="200" font-size="13" fill="#868e96">Scores + findings</text>
+  <text x="70" y="222" font-size="13" fill="#868e96">Prioritised actions</text>
+  <text x="70" y="244" font-size="13" fill="#868e96">Content strategy</text>
+  <text x="70" y="266" font-size="13" fill="#868e96">Presence inventory</text>
+
+  <!-- "Fix these" button -->
+  <rect x="65" y="300" width="170" height="36" rx="4" stroke="#d97757" fill="#faf9f7" stroke-width="2" filter="url(#rough)"/>
+  <text x="150" y="323" font-size="15" fill="#d97757" text-anchor="middle" class="title" font-style="italic">"Fix these"</text>
+
+  <text x="75" y="358" font-size="11" fill="#868e96">Owner clicks after</text>
+  <text x="75" y="374" font-size="11" fill="#868e96">reading the report</text>
+
+  <!-- Arrow: Audit → Fix Engine -->
+  <path d="M 270 265 L 360 265" stroke="#1b1b1f" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- FIX ENGINE box -->
+  <rect x="370" y="110" width="240" height="300" rx="3" stroke="#1b1b1f" fill="#ffffff" stroke-width="2" filter="url(#rough)"/>
+  <text x="390" y="103" font-size="13" fill="#d97757" font-weight="600" letter-spacing="0.5">FIX ENGINE</text>
+
+  <!-- Claude API pill -->
+  <rect x="395" y="138" width="190" height="34" rx="4" stroke="#1b1b1f" fill="#f5ebe6" stroke-width="1" filter="url(#rough)"/>
+  <text x="490" y="160" font-size="13" fill="#1b1b1f" text-anchor="middle">Claude API</text>
+
+  <!-- Fix engine steps -->
+  <text x="400" y="200" font-size="13" fill="#868e96">Reads the audit</text>
+  <text x="400" y="222" font-size="13" fill="#868e96">Plans fix sequence</text>
+  <text x="400" y="244" font-size="13" fill="#868e96">Generates content</text>
+  <text x="400" y="266" font-size="13" fill="#868e96">Routes to platform APIs</text>
+
+  <!-- OAuth pill -->
+  <rect x="395" y="300" width="190" height="34" rx="4" stroke="#1b1b1f" fill="#f1f3f5" stroke-width="1" filter="url(#rough)"/>
+  <text x="490" y="322" font-size="13" fill="#1b1b1f" text-anchor="middle">OAuth connections</text>
+
+  <text x="400" y="358" font-size="11" fill="#868e96">Shopify, WordPress,</text>
+  <text x="400" y="374" font-size="11" fill="#868e96">Google, Pinterest</text>
+
+  <!-- Arrows: Fix Engine → Output boxes -->
+  <path d="M 620 190 L 710 165" stroke="#1b1b1f" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 620 260 L 710 260" stroke="#1b1b1f" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 620 330 L 710 355" stroke="#1b1b1f" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Platform APIs box -->
+  <rect x="720" y="120" width="280" height="80" rx="3" stroke="#1b1b1f" fill="#ffffff" stroke-width="1" filter="url(#rough)"/>
+  <text x="740" y="145" font-size="15" fill="#1b1b1f" font-weight="500">Platform APIs</text>
+  <text x="740" y="166" font-size="11" fill="#868e96">Meta tags, OG, structured data</text>
+  <text x="740" y="183" font-size="11" fill="#868e96">Redirects, sitemaps, broken pages</text>
+
+  <!-- Content Generation box -->
+  <rect x="720" y="220" width="280" height="80" rx="3" stroke="#1b1b1f" fill="#ffffff" stroke-width="1" filter="url(#rough)"/>
+  <text x="740" y="245" font-size="15" fill="#1b1b1f" font-weight="500">Content Generation</text>
+  <text x="740" y="266" font-size="11" fill="#868e96">Product descriptions, story pages</text>
+  <text x="740" y="283" font-size="11" fill="#868e96">Blog posts, FAQs, case studies</text>
+
+  <!-- External Services box -->
+  <rect x="720" y="320" width="280" height="80" rx="3" stroke="#1b1b1f" fill="#ffffff" stroke-width="1" filter="url(#rough)"/>
+  <text x="740" y="345" font-size="15" fill="#1b1b1f" font-weight="500">External Services</text>
+  <text x="740" y="366" font-size="11" fill="#868e96">Google Business, Pinterest pins</text>
+  <text x="740" y="383" font-size="11" fill="#868e96">Trustpilot, testimonial emails</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="440" x2="1000" y2="440" stroke="#e8e8e5" stroke-width="1"/>
+
+  <!-- Agent-Ready Brand -->
+  <rect x="300" y="465" width="400" height="55" rx="4" stroke="#2d8a4e" fill="#e8f5e9" stroke-width="2" filter="url(#rough)"/>
+  <text x="500" y="492" font-size="20" fill="#2d8a4e" text-anchor="middle" class="title" font-weight="bold">Agent-Ready Brand</text>
+  <text x="500" y="512" font-size="12" fill="#868e96" text-anchor="middle">Findable + recommendable by AI</text>
+
+  <!-- Terracotta annotation -->
+  <text x="720" y="480" font-size="11" fill="#d97757" class="title" font-style="italic">When ChatGPT or Claude</text>
+  <text x="720" y="497" font-size="11" fill="#d97757" class="title" font-style="italic">recommends a business,</text>
+  <text x="720" y="514" font-size="11" fill="#d97757" class="title" font-style="italic">these show up</text>
+</svg>

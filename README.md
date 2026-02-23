@@ -27,18 +27,11 @@ Most small businesses are invisible to AI. Their product pages are thin, their m
 
 **Next: Self-serve audits** — API backend that chains the scripts and Claude API. User enters a URL, gets a report back in 10-15 minutes. ~$2-5 in API cost per audit.
 
-**Then: Automated fixes** — The audit tells you what's wrong. This step fixes it. Connect Shopify/WordPress OAuth and a Claude agent actions the quick wins directly:
+**Then: Automated fixes** — The audit tells you what's wrong. This step fixes it. A business owner reads the report, clicks "fix these", and a Claude agent does the work — rewriting product descriptions, fixing meta tags, setting up Google Business, submitting sitemaps. The stuff that normally costs £500-2000 and takes weeks.
 
-| Platform APIs | Claude API + Write | External Services |
-|---|---|---|
-| Meta tags, OG, structured data | Product descriptions | Google Business Profile |
-| Broken pages, redirects | About / Story pages | Pinterest setup + pins |
-| Sitemap submission | Blog posts, guides, case studies | Trustpilot profile |
-| | | Testimonial request emails |
+![Fix Engine](docs/fix-engine.png)
 
-The audit becomes the sales tool. The implementation becomes the product. A business owner reads the report, clicks "fix these", and an agent does the work that would normally cost £500-2000 and take weeks.
-
-The end goal is agent-ready brands - small businesses that are findable and recommendable by AI. When someone asks an AI agent to find a handmade leather bag maker in the UK or a design studio in Dublin, the businesses we've audited and fixed actually show up with enough context to be recommended. That's the new SEO.
+The end goal is agent-ready brands. When someone asks ChatGPT to find a leather bag maker in the UK or asks Claude for a design studio in Dublin, the businesses we've audited and fixed actually show up — with enough context to be recommended. That's the new SEO.
 
 ---
 
