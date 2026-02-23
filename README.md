@@ -88,7 +88,7 @@ discover                          draft                        deploy
 |------|:------:|:------:|-----|
 | HTML parsing, platform detection | x | | Deterministic, fast |
 | PageSpeed API | x | | Pure API call |
-| Trustpilot/Pinterest/YouTube checks | x | | HTTP status checks |
+| Trustpilot/Pinterest/YouTube/Etsy checks | x | | HTTP status checks |
 | Instagram/LinkedIn/TikTok | | x | Platforms block scripts |
 | Review sentiment analysis | | x | Needs judgment |
 | Scoring (0-5) | | x | Core judgment call |
@@ -118,7 +118,7 @@ Fetches the homepage and key paths. Extracts: title, meta descriptions, platform
 node scripts/check-presence.mjs "Willow Leather" "willow-leather" "willow-leather.com"
 ```
 
-Takes business name, primary handle, and domain. Generates handle variations (exact, dotted, joined, underscored). Checks in parallel: Trustpilot (extracts rating + review count), Pinterest, YouTube, Etsy, Facebook, Companies House (free JSON API).
+Takes business name, primary handle, and domain. Generates handle variations (exact, dotted, joined, underscored). Checks in parallel: Trustpilot (extracts rating + review count), Pinterest, YouTube, Etsy, Facebook.
 
 ### check-pagespeed.mjs
 

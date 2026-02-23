@@ -231,46 +231,6 @@ async function checkFacebook() {
   return checkPlatformHandles("Facebook", "https://www.facebook.com/{handle}/", handles);
 }
 
-async function checkCompaniesHouse() {
-  const encodedName = encodeURIComponent(businessName);
-  const url = `https://api.company-information.service.gov.uk/search/companies?q=${encodedName}`;
-  const result = { found: null, company_name: null, company_number: null, status: null, notes: "" };
-
-  try {
-    const res = await fetch(url);
-
-    if (res.error) {
-      result.notes = res.error;
-      return result;
-    }
-
-    if (res.status === 200) {
-      try {
-        const data = JSON.parse(res.body);
-        if (data.items && data.items.length > 0) {
-          const top = data.items[0];
-          result.found = true;
-          result.company_name = top.title || null;
-          result.company_number = top.company_number || null;
-          result.status = top.company_status
-            ? top.company_status.charAt(0).toUpperCase() + top.company_status.slice(1)
-            : null;
-        } else {
-          result.found = false;
-          result.notes = "No matching companies found";
-        }
-      } catch {
-        result.notes = "Failed to parse JSON response";
-      }
-    } else {
-      result.notes = `HTTP ${res.status}`;
-    }
-  } catch (err) {
-    result.notes = err.message;
-  }
-
-  return result;
-}
 
 // ---------------------------------------------------------------------------
 // Main
@@ -281,13 +241,12 @@ async function main() {
   process.stderr.write(`Domain: ${domain}\n`);
   process.stderr.write(`Handle variations: ${handles.join(", ")}\n\n`);
 
-  const [trustpilot, pinterest, youtube, etsy, facebook, companiesHouse] = await Promise.all([
+  const [trustpilot, pinterest, youtube, etsy, facebook] = await Promise.all([
     checkTrustpilot(),
     checkPinterest(),
     checkYouTube(),
     checkEtsy(),
     checkFacebook(),
-    checkCompaniesHouse(),
   ]);
 
   const output = {
@@ -295,7 +254,6 @@ async function main() {
     domain,
     handles_tried: handles,
     platforms: [trustpilot, pinterest, youtube, etsy, facebook],
-    companies_house: companiesHouse,
   };
 
   process.stdout.write(JSON.stringify(output, null, 2) + "\n");
