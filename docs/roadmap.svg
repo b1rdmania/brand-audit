@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="870" height="530" viewBox="20 0 870 530">
+<defs><marker id="arrow-868e96" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#868e96" /></marker><style>text { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; }</style></defs>
+<text x="60" y="48" font-size="28" fill="#1b1b1f">Roadmap</text>
+<rect x="40" y="80" width="220" height="180" rx="8" stroke="#2f9e44" fill="#d3f9d8" stroke-width="2" />
+<text x="70" y="117" font-size="22" fill="#2f9e44">Now</text>
+<text x="60" y="146" font-size="16" fill="#1b1b1f">Claude Code skill
+runs full pipeline</text>
+<text x="60" y="196" font-size="16" fill="#1b1b1f">React app displays
+reports</text>
+<path d="M 270 170 L 320 170" stroke="#868e96" fill="none" stroke-width="2" marker-end="url(#arrow-868e96)" />
+<rect x="330" y="80" width="220" height="180" rx="8" stroke="#1971c2" fill="#d0ebff" stroke-width="2" />
+<text x="360" y="117" font-size="22" fill="#1971c2">Next</text>
+<text x="350" y="146" font-size="16" fill="#1b1b1f">Self-serve audits</text>
+<text x="350" y="174" font-size="14" fill="#868e96">API backend chains
+scripts + Claude API</text>
+<text x="350" y="224" font-size="14" fill="#868e96">URL in → report out
+~$2-5 per audit</text>
+<path d="M 560 170 L 610 170" stroke="#868e96" fill="none" stroke-width="2" marker-end="url(#arrow-868e96)" />
+<rect x="620" y="80" width="250" height="180" rx="8" stroke="#e67700" fill="#fff4e6" stroke-width="2" />
+<text x="650" y="117" font-size="22" fill="#e67700">Then</text>
+<text x="640" y="146" font-size="16" fill="#1b1b1f">Automated fixes</text>
+<text x="640" y="174" font-size="14" fill="#868e96">Shopify/WP OAuth
+Claude agent actions
+the quick wins directly</text>
+<text x="640" y="236" font-size="14" fill="#868e96">"Fix these" → done</text>
+<path d="M 40 300 L 870 300" stroke="#e8e8e5" fill="none" stroke-width="1" />
+<text x="40" y="336" font-size="16" fill="#1b1b1f">What the agent can fix automatically:</text>
+<rect x="40" y="360" width="260" height="150" rx="8" stroke="#868e96" fill="#f1f3f5" stroke-width="1" />
+<text x="55" y="388" font-size="16" fill="#1b1b1f">Platform APIs</text>
+<text x="55" y="413" font-size="13" fill="#868e96">Meta tags &amp; OG
+Broken pages &amp; redirects
+Structured data
+Sitemap submission</text>
+<rect x="325" y="360" width="260" height="150" rx="8" stroke="#868e96" fill="#f1f3f5" stroke-width="1" />
+<text x="340" y="388" font-size="16" fill="#1b1b1f">Claude API + Write</text>
+<text x="340" y="413" font-size="13" fill="#868e96">Product descriptions
+About / Story pages
+Blog posts &amp; guides
+Case studies</text>
+<rect x="610" y="360" width="260" height="150" rx="8" stroke="#868e96" fill="#f1f3f5" stroke-width="1" />
+<text x="625" y="388" font-size="16" fill="#1b1b1f">External Services</text>
+<text x="625" y="413" font-size="13" fill="#868e96">Google Business Profile
+Pinterest setup &amp; pins
+Trustpilot profile
+Testimonial request emails</text>
+</svg>
