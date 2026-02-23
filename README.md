@@ -1,10 +1,8 @@
 # Brand Audit Tool
 
-Automated brand and online presence audits for small businesses - built for a world where AI agents are the new search engines.
+Most small businesses are invisible to AI. Their product pages are thin, their metadata is missing, their story isn't written down anywhere an LLM can find it. When someone asks ChatGPT for a recommendation, these businesses don't exist.
 
-You give it a URL. It researches everything a prospective customer would find online, scores every category, and produces a report that looks like it came from a consultancy. Then it helps fix what's broken - not just for Google, but for the ChatGPTs and Claudes that are increasingly where people start when they're looking for a product, a service, or a recommendation.
-
-Most small businesses are invisible to AI. Their product pages are thin, their metadata is missing, their story isn't written down anywhere an LLM can find it. This tool audits that gap and closes it.
+This tool audits that gap and closes it. Give it a URL, get back a consultancy-grade report scoring every dimension of online presence — not just for Google, but for the AI agents that are replacing it.
 
 ![Architecture](docs/architecture.png)
 
