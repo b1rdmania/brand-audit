@@ -21,7 +21,18 @@ Each audit used to take around four hours of manual research. This brings it dow
 
 ## Roadmap
 
-![Roadmap](docs/roadmap.png)
+**Now** — Claude Code skill runs the full pipeline. React app displays reports.
+
+**Next: Self-serve audits** — API backend that chains the scripts and Claude API together. User enters a URL, gets a report back in 10-15 minutes. No Claude Code required. ~$2-5 in API cost per audit.
+
+**Then: Automated fixes** — The audit tells you what's wrong. This step fixes it. Connect Shopify/WordPress OAuth and a Claude agent actions the quick wins directly:
+
+| | Platform APIs | Claude API + Write | External Services |
+|---|---|---|---|
+| | Meta tags, OG, structured data | Product descriptions | Google Business Profile |
+| | Broken pages, redirects | About / Story pages | Pinterest setup + pins |
+| | Sitemap submission | Blog posts, guides, case studies | Trustpilot profile |
+| | | | Testimonial request emails |
 
 The audit becomes the sales tool. The implementation becomes the product. A business owner reads the report, clicks "fix these", and an agent does the work that would normally cost £500-2000 and take weeks.
 
@@ -29,7 +40,7 @@ The audit becomes the sales tool. The implementation becomes the product. A busi
 
 ## How to Use It
 
-**Claude Code Skill** - install the skill, run audits from the terminal:
+**Claude Code Skill** — install the skill, run audits from the terminal:
 
 ```
 /brand-audit discover https://example.com
@@ -37,4 +48,4 @@ The audit becomes the sales tool. The implementation becomes the product. A busi
 /brand-audit deploy example-business
 ```
 
-**React App** - browser dashboard for viewing and managing audits. Import JSON, browse reports with the same editorial design. localStorage, no backend.
+**React App** — browser dashboard for viewing and managing audits. Import JSON, browse reports with the same editorial design. localStorage, no backend.
