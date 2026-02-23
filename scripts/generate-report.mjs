@@ -1102,8 +1102,12 @@ function renderFindings(findings) {
     }
     if (f.evidence?.length) {
       body += `\n          <div class="finding-evidence">`;
-      for (const e of f.evidence) {
-        body += `\n            <div class="evidence-item">${e}</div>`;
+      if (typeof f.evidence === 'string') {
+        body += `\n            ${f.evidence}`;
+      } else {
+        for (const e of f.evidence) {
+          body += `\n            <div class="evidence-item">${e}</div>`;
+        }
       }
       body += `\n          </div>`;
     }
@@ -1120,8 +1124,8 @@ function renderFindings(findings) {
 
   return `
     <section class="section">
-      <h2>Detailed Findings</h2>
-      <p class="section-intro">Click each category to expand the evidence.</p>
+      <h2>Scores &amp; Findings</h2>
+      <p class="section-intro">Each category scored 0&ndash;5. Click to expand the evidence.</p>
       <div class="findings-list">
 ${items}
       </div>
@@ -1301,15 +1305,14 @@ function generateReport(data) {
 ${renderHeader(meta)}
 ${renderHealthHero(findings, executive_summary)}
 ${renderExecutiveSummary(executive_summary)}
-${renderScorecard(findings)}
-${renderWebsiteOverview(website)}
-${renderPresenceGrid(presence)}
-
-    <hr class="divider">
 ${renderFindings(findings)}
 
     <hr class="divider">
 ${renderActions(actions)}
+
+    <hr class="divider">
+${renderWebsiteOverview(website)}
+${renderPresenceGrid(presence)}
 
     <hr class="divider">
 ${renderContentStrategy(content_strategy)}
