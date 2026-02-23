@@ -122,7 +122,7 @@ Takes the discovery data and adds Claude's judgment — scores, findings, priori
    - **Prioritised actions** — this_week, this_month, ninety_days. Sorted by impact and effort.
    - **Content strategy** — realistic content ideas for this specific business
    - **Strengths** — what's genuinely good, acknowledged before the fixes
-   - **Claude prompt** — tailored intake questions for the business owner
+   - **Claude prompt** — a briefing for a new Claude agent to help the business owner act on the audit (see Prompt Guidelines below)
 3. Save the completed `audit-data.json`
 4. Generate the HTML report:
 
@@ -144,7 +144,39 @@ open "${PROJECT}/reports/${SLUG}/audit-report.html"
 - Categories are not fixed. Choose 8-10 that make sense for this business.
 - Scores should be honest. A 3 means "okay but could be better." A 1 means "this is a real problem." A 5 means "genuinely excellent."
 - Actions should be specific and actionable by the business owner, not a marketer.
-- The Claude prompt intake questions should be specific to the business type — a maker gets asked about capacity and materials, a service business gets asked about referral sources and case studies.
+
+### Prompt Guidelines
+
+The `claude_prompt.prompt_text` is not a questionnaire. It's a briefing document for a new Claude agent who will help the business owner act on the audit. Think of it as handing the audit to a smart colleague and saying "help this person."
+
+**What the prompt should contain:**
+
+1. **Full context** — who the business is, what they do, who runs it, the key facts from the audit. The new agent needs to understand this business without reading the full JSON.
+2. **The audit findings in plain language** — what scored well, what scored badly, and what the audit thinks the biggest opportunities are. Include the actual scores and the reasoning.
+3. **The prioritised actions** — the quick wins, the month-long projects, the 90-day goals. Reproduce these so the agent has them.
+4. **Coaching instructions** — tell the agent how to work with the owner:
+   - Start by sharing the key findings and asking what resonates and what feels wrong. The audit is based on public information only — the owner knows things we don't.
+   - Let the conversation flow naturally from there. If the owner pushes back on a score, explore why. If they agree something's broken, help them fix it.
+   - Work through the quick wins first. For each one, give exact steps, draft any copy needed, and help them actually do it in the session.
+   - Be honest about trade-offs. A solo maker can't do everything - help them pick the two or three things that will matter most.
+5. **What NOT to do** — don't ask a structured list of intake questions. Don't turn it into a form. The owner should feel like they're talking to someone who already understands their business and is helping them think through it.
+
+**Structure the prompt like this:**
+
+```
+You are helping [name] act on a brand audit of [business]. Here's what the audit found.
+
+[Business context — 2-3 sentences about who they are, what they do, their situation]
+
+[Key findings — the scores, what's strong, what's weak, in plain language]
+
+[The actions — quick wins first, then the bigger projects]
+
+How to work with [name]:
+Start by sharing the headline findings and asking what resonates. The audit only used public information — they'll know things we missed. Let the conversation go where it needs to go. When they're ready to act, work through the quick wins together — give them exact steps and draft any copy they need. Be realistic about what one person / a small team can actually do.
+```
+
+The prompt should be comprehensive enough that the new agent can have an intelligent conversation without needing to read anything else. Include the data.
 
 ---
 
@@ -189,7 +221,7 @@ Write for the business owner, not a marketer. Plain English. Short sentences. Be
 - **Solo makers / one-person operations**: Be realistic about what one person can do. Focus recommendations on 2-3 channels max.
 - **Service businesses**: Focus on trust signals — reviews, case studies, process descriptions.
 - **Product businesses**: Focus on discovery channels — Pinterest, SEO, marketplace presence.
-- **All**: The Claude prompt at the bottom should have intake questions specific to the business type.
+- **All**: The Claude prompt should give a new agent enough context to have a genuine conversation about acting on the findings. Not a questionnaire — a briefing.
 
 ## Error Handling
 

@@ -1,105 +1,14 @@
 import { useState } from 'react';
+import HealthHero from '../components/HealthHero';
 import ExecutiveSummary from '../components/ExecutiveSummary';
 import Scorecard from '../components/Scorecard';
-import PresenceTable from '../components/PresenceTable';
+import WebsiteOverview from '../components/WebsiteOverview';
+import PresenceGrid from '../components/PresenceGrid';
 import Findings from '../components/Findings';
 import Actions from '../components/Actions';
 import ContentStrategy from '../components/ContentStrategy';
-
-function WebsiteOverview({ website }) {
-  if (!website) return null;
-
-  return (
-    <section style={{ marginBottom: '2.5rem' }}>
-      <h2>Website Overview</h2>
-      <div className="card-grid">
-        <div className="card">
-          <h3>Platform</h3>
-          <p style={{ marginBottom: 0 }}>{website.platform || 'Unknown'}</p>
-        </div>
-        {website.pagespeed_mobile != null && (
-          <div className="card">
-            <h3>PageSpeed (Mobile)</h3>
-            <p style={{ marginBottom: 0, fontSize: '1.5rem', fontWeight: 700 }}>
-              {website.pagespeed_mobile}<span style={{ fontSize: '0.875rem', fontWeight: 400, color: 'var(--text-tertiary)' }}> / 100</span>
-            </p>
-          </div>
-        )}
-        {website.ssl != null && (
-          <div className="card">
-            <h3>SSL</h3>
-            <p style={{ marginBottom: 0 }}>{website.ssl ? 'Valid' : 'Missing / Invalid'}</p>
-          </div>
-        )}
-        {website.blog && (
-          <div className="card">
-            <h3>Blog</h3>
-            <p style={{ marginBottom: 0 }}>
-              {website.blog.detected ? `${website.blog.post_count || 0} posts` : 'Not detected'}
-            </p>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-function Strengths({ items }) {
-  if (!items?.length) return null;
-  return (
-    <section style={{ marginBottom: '2.5rem' }}>
-      <h2>Existing Strengths</h2>
-      <div className="card">
-        <ul style={{ marginLeft: '1rem', color: 'var(--text-secondary)', fontSize: '0.9375rem' }}>
-          {items.map((s, i) => (
-            <li key={i} style={{ marginBottom: '0.5rem' }}>{s}</li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-function ClaudePrompt({ prompt }) {
-  if (!prompt?.prompt_text) return null;
-  const [copied, setCopied] = useState(false);
-
-  function handleCopy() {
-    navigator.clipboard.writeText(prompt.prompt_text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-
-  return (
-    <section style={{ marginBottom: '2.5rem' }}>
-      <h2>Next Steps</h2>
-      <p>Copy the prompt below into Claude to start working on the fixes:</p>
-      <div style={{ position: 'relative' }}>
-        <pre style={{
-          background: 'var(--bg-white)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius-lg)',
-          padding: '1.5rem',
-          fontSize: '0.8125rem',
-          lineHeight: 1.6,
-          whiteSpace: 'pre-wrap',
-          wordBreak: 'break-word',
-          maxHeight: '400px',
-          overflow: 'auto',
-        }}>
-          {prompt.prompt_text}
-        </pre>
-        <button
-          className="btn btn-secondary"
-          onClick={handleCopy}
-          style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', fontSize: '0.75rem' }}
-        >
-          {copied ? 'Copied' : 'Copy'}
-        </button>
-      </div>
-    </section>
-  );
-}
+import Strengths from '../components/Strengths';
+import ClaudePrompt from '../components/ClaudePrompt';
 
 function JsonImport({ onImport }) {
   const [show, setShow] = useState(false);
@@ -145,47 +54,71 @@ function JsonImport({ onImport }) {
 export default function AuditView({ audit, onBack, onUpdate, onDelete }) {
   return (
     <div className="container">
-      <header style={{ marginBottom: '2.5rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-          <button className="btn btn-ghost" onClick={onBack}>
-            &larr; All Audits
-          </button>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <JsonImport onImport={(data) => onUpdate({ ...audit, ...data })} />
-            {audit.deployed_url && (
-              <a href={audit.deployed_url} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
-                View Live
-              </a>
-            )}
-          </div>
-        </div>
-
-        <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '2rem' }}>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
-            Brand & Online Presence Audit &middot; {audit.meta?.generated || 'Draft'}
-          </div>
-          <h1>{audit.meta?.business_name}</h1>
-          {audit.executive_summary?.core_finding && (
-            <p style={{ fontSize: '1.125rem', color: 'var(--text-secondary)', maxWidth: '680px' }}>
-              {audit.executive_summary.core_finding.substring(0, 200)}...
-            </p>
+      {/* Navigation bar */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <button className="btn btn-ghost" onClick={onBack}>&larr; All Audits</button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <JsonImport onImport={(data) => onUpdate({ ...audit, ...data })} />
+          {audit.deployed_url && (
+            <a href={audit.deployed_url} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+              View Live
+            </a>
           )}
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)' }}>
-            <a href={audit.meta?.url} target="_blank" rel="noopener noreferrer">{audit.meta?.url}</a>
-          </p>
         </div>
+      </div>
+
+      {/* Centered report header */}
+      <header className="report-header">
+        <div className="report-meta">
+          Brand &amp; Online Presence Audit &middot; {audit.meta?.generated || 'Draft'}
+        </div>
+        <h1>{audit.meta?.business_name}</h1>
+        {audit.meta?.url && (
+          <span className="report-url">
+            <a href={audit.meta.url} target="_blank" rel="noopener noreferrer">{audit.meta.url}</a>
+          </span>
+        )}
       </header>
 
+      {/* Health Score Hero */}
+      <HealthHero findings={audit.findings} executiveSummary={audit.executive_summary} />
+
+      {/* Executive Summary */}
       <ExecutiveSummary summary={audit.executive_summary} />
+
+      {/* Scorecard */}
       <Scorecard findings={audit.findings} />
+
+      {/* Website Overview */}
       <WebsiteOverview website={audit.website} />
-      <PresenceTable presence={audit.presence} />
+
+      {/* Presence */}
+      <PresenceGrid presence={audit.presence} />
+
+      <hr className="divider" />
+
+      {/* Detailed Findings */}
       <Findings findings={audit.findings} />
+
+      <hr className="divider" />
+
+      {/* Actions */}
       <Actions actions={audit.actions} />
+
+      <hr className="divider" />
+
+      {/* Content Strategy */}
       <ContentStrategy items={audit.content_strategy} />
+
+      {/* Strengths */}
       <Strengths items={audit.strengths} />
+
+      <hr className="divider" />
+
+      {/* Claude Prompt */}
       <ClaudePrompt prompt={audit.claude_prompt} />
 
+      {/* Footer */}
       <footer style={{
         paddingTop: '2rem',
         borderTop: '1px solid var(--border)',
@@ -195,7 +128,7 @@ export default function AuditView({ audit, onBack, onUpdate, onDelete }) {
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-        <span>Generated {audit.meta?.generated}</span>
+        <span>{audit.meta?.business_name} - Brand &amp; Online Presence Audit. {audit.meta?.generated && `Prepared ${audit.meta.generated}.`}</span>
         <button
           className="btn btn-ghost"
           onClick={onDelete}

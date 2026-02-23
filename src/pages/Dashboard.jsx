@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import ScoreBadge from '../components/ScoreBadge';
 import StatusBadge from '../components/StatusBadge';
-
-function averageScore(audit) {
-  if (!audit.findings?.length) return null;
-  const sum = audit.findings.reduce((acc, f) => acc + (f.score || 0), 0);
-  return Math.round(sum / audit.findings.length * 10) / 10;
-}
+import { averageScore } from '../lib/theme';
 
 function auditStatus(audit) {
   if (audit.deployed_url) return 'deployed';
@@ -48,10 +43,12 @@ export default function Dashboard({ audits, onSelect, onAdd }) {
 
   return (
     <div className="container">
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
         <div>
-          <h1>Brand Audits</h1>
-          <p style={{ marginBottom: 0 }}>{audits.length} audit{audits.length !== 1 ? 's' : ''}</p>
+          <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', marginBottom: '0.5rem' }}>Brand Audits</h1>
+          <p style={{ marginBottom: 0, color: 'var(--text-tertiary)', fontSize: '0.875rem' }}>
+            {audits.length} audit{audits.length !== 1 ? 's' : ''}
+          </p>
         </div>
         <button className="btn btn-primary" onClick={() => setShowNewForm(!showNewForm)}>
           + New Audit
@@ -84,29 +81,29 @@ export default function Dashboard({ audits, onSelect, onAdd }) {
 
       {audits.length === 0 ? (
         <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-          <p style={{ fontSize: '1.125rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+          <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
             No audits yet
           </p>
           <p style={{ color: 'var(--text-tertiary)' }}>
-            Create a new audit or run <code>/brand-audit discover &lt;url&gt;</code> in Claude Code
+            Create a new audit or run <code style={{ background: 'var(--bg-primary)', padding: '0.15rem 0.4rem', borderRadius: '4px', fontSize: '0.8125rem' }}>/brand-audit discover &lt;url&gt;</code> in Claude Code
           </p>
         </div>
       ) : (
         <div className="card-grid">
           {audits.map(audit => {
             const status = auditStatus(audit);
-            const avg = averageScore(audit);
+            const avg = audit.findings?.length ? averageScore(audit.findings) : null;
             return (
               <button
                 key={audit.meta?.slug}
                 className="card"
                 onClick={() => onSelect(audit)}
-                style={{ cursor: 'pointer', textAlign: 'left', border: '1px solid var(--border)', transition: 'border-color 0.15s' }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent)'}
-                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+                style={{ cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.15s, box-shadow 0.15s' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-                  <h3 style={{ marginBottom: 0 }}>{audit.meta?.business_name}</h3>
+                  <h3 style={{ marginBottom: 0, fontFamily: 'var(--font-serif)', fontWeight: 500, fontSize: '1.0625rem' }}>{audit.meta?.business_name}</h3>
                   <StatusBadge status={status} label={statusLabels[status]} />
                 </div>
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-tertiary)', marginBottom: '0.5rem' }}>

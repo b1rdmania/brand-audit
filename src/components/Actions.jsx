@@ -1,68 +1,76 @@
-function ActionList({ title, actions }) {
-  if (!actions?.length) return null;
-
-  return (
-    <div style={{ marginBottom: '1.5rem' }}>
-      <h3>{title}</h3>
-      <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-        {actions.map((a, i) => (
-          <li
-            key={i}
-            style={{
-              padding: '1rem 1.25rem',
-              background: 'var(--bg-white)',
-              border: '1px solid var(--border)',
-              marginBottom: '0.5rem',
-              borderRadius: 'var(--radius)',
-              fontSize: '0.9375rem',
-              color: 'var(--text-secondary)',
-              boxShadow: 'var(--shadow-sm)',
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '0.75rem',
-            }}
-          >
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minWidth: '1.5rem',
-              height: '1.5rem',
-              background: 'var(--accent)',
-              color: 'white',
-              borderRadius: '100px',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              flexShrink: 0,
-              marginTop: '0.1rem',
-            }}>
-              {i + 1}
-            </span>
-            <div>
-              <strong style={{ color: 'var(--text-primary)' }}>{a.title}</strong>
-              {a.detail && <p style={{ marginBottom: 0, marginTop: '0.25rem' }}>{a.detail}</p>}
-              {a.effort && (
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.25rem', display: 'block' }}>
-                  Effort: {a.effort}
-                </span>
-              )}
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
-  );
-}
+import { actionGroupColor } from '../lib/theme';
 
 export default function Actions({ actions }) {
   if (!actions) return null;
 
+  const groups = [];
+  if (actions.this_week?.length) groups.push({ key: 'this_week', label: 'This week', sublabel: 'hours each', items: actions.this_week });
+  if (actions.this_month?.length) groups.push({ key: 'this_month', label: 'This month', sublabel: '1-2 days each', items: actions.this_month });
+  if (actions.ninety_days?.length) groups.push({ key: 'ninety_days', label: '90 days', sublabel: '1 week+ each', items: actions.ninety_days });
+
+  for (const [key, val] of Object.entries(actions)) {
+    if (['this_week', 'this_month', 'ninety_days'].includes(key)) continue;
+    if (Array.isArray(val) && val.length) {
+      const label = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      groups.push({ key, label, sublabel: '', items: val });
+    }
+  }
+
+  if (!groups.length) return null;
+
+  const quickWins = (actions.this_week || []).slice(0, 3);
+  let num = quickWins.length ? 4 : 1;
+
   return (
-    <section style={{ marginBottom: '2.5rem' }}>
-      <h2>Prioritised Actions</h2>
-      <ActionList title="This Week" actions={actions.this_week} />
-      <ActionList title="This Month" actions={actions.this_month} />
-      <ActionList title="90 Days" actions={actions.ninety_days} />
+    <section className="section">
+      <h2>What To Fix</h2>
+
+      {quickWins.length > 0 && (
+        <>
+          <p className="section-intro">Start with these three quick wins.</p>
+          <div className="quick-wins">
+            {quickWins.map((a, i) => (
+              <div key={i} className="quick-win-card">
+                <span className="quick-win-number">{i + 1}</span>
+                <h3>{a.title || String(a)}</h3>
+                {a.detail && <p>{a.detail}</p>}
+                {a.effort && <span className="quick-win-effort">Effort: {a.effort}</span>}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {groups.map(group => {
+        const { color, colorLight } = actionGroupColor(group.key);
+        const items = group.key === 'this_week' ? group.items.slice(quickWins.length) : group.items;
+        if (!items.length && group.key === 'this_week') return null;
+
+        const label = group.key === 'this_week' && quickWins.length
+          ? `Also this week (${group.sublabel})`
+          : `${group.label} (${group.sublabel})`;
+
+        return (
+          <div key={group.key} className="action-group">
+            <div className="action-group-title" style={{ color, borderBottomColor: colorLight }}>{label}</div>
+            <div className="action-list">
+              {items.map((a, i) => {
+                const currentNum = num++;
+                return (
+                  <div key={i} className="action-item">
+                    <span className="action-num" style={{ background: colorLight, color }}>{currentNum}</span>
+                    <div>
+                      <strong>{a.title || String(a)}</strong>
+                      {a.detail && ` ${a.detail}`}
+                      {a.effort && <> <span className="action-effort">({a.effort})</span></>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </section>
   );
 }

@@ -1,21 +1,20 @@
-export default function ExecutiveSummary({ summary, businessContext }) {
+export default function ExecutiveSummary({ summary }) {
   if (!summary) return null;
 
   return (
-    <section style={{ marginBottom: '2.5rem' }}>
-      <h2>Executive Summary</h2>
+    <section className="section">
       {summary.core_finding && (
-        <div className="callout">
-          <p><strong style={{ color: 'var(--accent)' }}>The core finding:</strong> {summary.core_finding}</p>
-        </div>
+        <p style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: '1.0625rem',
+          lineHeight: 1.7,
+          color: 'var(--text-secondary)',
+        }}>
+          {summary.core_finding}
+        </p>
       )}
-      {summary.opportunity && (
-        <div className="callout">
-          <p><strong style={{ color: 'var(--accent)' }}>The opportunity:</strong> {summary.opportunity}</p>
-        </div>
-      )}
-      {(summary.business_context || businessContext) && (
-        <p>{summary.business_context || businessContext}</p>
+      {summary.business_context && (
+        <p className="exec-context">{summary.business_context}</p>
       )}
     </section>
   );
