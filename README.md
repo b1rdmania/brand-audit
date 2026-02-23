@@ -53,3 +53,28 @@ Scripts handle deterministic work (HTML parsing, API calls, HTTP checks). Claude
 ## Writing Rules
 
 Orwell's rules. No marketing jargon. Write for the business owner, not a marketer. Plain English. Short sentences. Be direct about problems. Acknowledge what's genuinely good first.
+
+---
+
+## Roadmap
+
+**Now** - Claude Code skill runs the full pipeline. React app displays reports.
+
+**Next: Self-serve audits** - API backend that chains the scripts and Claude API together. User enters a URL, gets a report back in 10-15 minutes. No Claude Code required. ~$2-5 in API cost per audit.
+
+**Then: Automated fixes** - The audit tells you what's wrong. This step fixes it. Connect Shopify/WordPress OAuth and a Claude agent can action the quick wins directly:
+
+| What | How |
+|------|-----|
+| Fix meta descriptions, titles, OG tags | Shopify/WordPress API |
+| Rewrite product descriptions for SEO | Claude API + platform write access |
+| Add structured data / JSON-LD | Inject via theme or API |
+| Fix broken pages, redirects | Platform API |
+| Write "Our Story", process pages, case studies | Claude API + draft for approval |
+| Set up Google Business Profile | Google Business API |
+| Create Pinterest business account, pin products | Pinterest API |
+| Draft blog posts (care guides, how-tos) | Claude API |
+| Submit sitemap to Search Console | Google API |
+| Collect testimonials (draft the ask email) | Claude API + email integration |
+
+The audit becomes the sales tool. The implementation becomes the product. A business owner reads the report, clicks "fix these", and an agent does the work that would normally cost £500-2000 and take weeks.
