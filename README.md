@@ -12,60 +12,69 @@ Each audit used to take ~4 hours of manual research. This tool brings it down to
 
 You give it a URL. It:
 
-1. **Scans the website** — platform detection, meta tags, social links, blog status, SSL, sitemap, scripts, review widgets, email capture tools, broken paths
-2. **Checks platform presence** — Trustpilot, Pinterest, YouTube, Etsy, Facebook, Companies House. Generates handle variations and checks each
-3. **Runs PageSpeed** — mobile performance score, Core Web Vitals, top 3 optimisation opportunities
-4. **Claude researches the rest** — Instagram, LinkedIn, TikTok (platforms that block scripts), Google search results, AI visibility, competitor landscape, review sentiment, press coverage
-5. **Claude adds judgment** — scores each category 0-5 with evidence, writes the executive summary, prioritises actions by impact and effort, suggests content strategy, drafts a tailored Claude prompt for the business owner
-6. **Generates the report** — self-contained HTML with the exact same design system as the manually-crafted originals
-7. **Deploys to Vercel** — one command, live URL
+1. **Scans the website** - platform detection, meta tags, social links, blog status, SSL, sitemap, scripts, review widgets, email capture tools, broken paths
+2. **Checks platform presence** - Trustpilot, Pinterest, YouTube, Etsy, Facebook, Companies House. Generates handle variations and checks each
+3. **Runs PageSpeed** - mobile performance score, Core Web Vitals, top 3 optimisation opportunities
+4. **Claude researches the rest** - Instagram, LinkedIn, TikTok (platforms that block scripts), Google search results, AI visibility, competitor landscape, review sentiment, press coverage
+5. **Claude adds judgment** - scores each category 0-5 with evidence, writes the executive summary, prioritises actions by impact and effort, suggests content strategy, drafts a tailored Claude prompt for the business owner
+6. **Generates the report** - self-contained HTML with editorial-quality design
+7. **Deploys to Vercel** - one command, live URL
 
-The single `audit-data.json` file is the contract between every step. Scripts write to it, Claude enriches it, the generator reads from it, the React app displays it.
+The single `audit-data.json` file is the contract between every step. Scripts write to it, Claude enriches it, the generator reads from it.
 
 ---
 
-## Two Ways to Use It
+## Report Design
 
-### Option 1: Claude Code Skill
+Reports are designed to feel like a premium consultancy deliverable that a small business owner can actually absorb. Not a wall of text.
+
+**Health score hero** - SVG donut chart showing the average score across all categories, with a grade label and one-sentence summary. Gives the emotional read before any detail.
+
+**Scorecard** - horizontal bar charts for each category, colour-coded red/amber/green. Visual length communicates the score at a glance.
+
+**Presence grid** - compact cards with coloured status dots, grouped by status (active, stale, missing). Replaces the traditional dense table.
+
+**Collapsible findings** - accordion sections using `<details>`. First one open by default, rest collapsed. Click to expand evidence. No more walls of bullets.
+
+**Colour-coded actions** - top 3 "this week" actions pulled out as quick-win hero cards with terracotta borders. Remaining actions grouped by timeframe with coloured number circles: terracotta (this week), amber (this month), green (90 days).
+
+**Typography** - Newsreader serif for headings (editorial authority), Plus Jakarta Sans for body (modern, readable). Both loaded from Google Fonts.
+
+**Design tokens** - cream background (#faf9f7), charcoal text (#131314), terracotta accent (#d97757), with green/amber/red for scoring.
+
+---
+
+## How to Use It
+
+### Claude Code Skill
 
 For people running Claude Code. Install the skill, then run audits from the terminal:
 
 ```
-/brand-audit discover https://willow-leather.com
+/brand-audit discover https://example.com
 ```
 
-This runs all three scripts in parallel, then Claude does the research that scripts can't handle (Instagram, LinkedIn, Google search visibility, AI tool citations, competitors). Outputs `audit-data.json` + a narrative `discovery.md`.
+Runs all three scripts in parallel, then Claude does the research that scripts can't handle (Instagram, LinkedIn, Google search visibility, AI tool citations, competitors). Outputs `audit-data.json` + a narrative `discovery.md`.
 
 ```
-/brand-audit draft willow-leather
+/brand-audit draft example-business
 ```
 
-Claude reads the discovery data and adds the judgment layer — scores with evidence, executive summary, prioritised actions (this week / this month / 90 days), content strategy, existing strengths, and a business-specific Claude prompt. Then `generate-report.mjs` produces the HTML report and opens it in the browser for review.
+Claude reads the discovery data and adds the judgment layer - scores with evidence, executive summary, prioritised actions, content strategy, strengths, and a business-specific Claude prompt. Then `generate-report.mjs` produces the HTML report.
 
 ```
-/brand-audit deploy willow-leather
+/brand-audit deploy example-business
 ```
 
-Pushes the report to Vercel. Prints the live URL. Updates the JSON with the deployed URL.
+Pushes the report to Vercel. Prints the live URL.
 
 The full skill definition is in [`skill/SKILL.md`](skill/SKILL.md). Reference files for channel patterns, competitor analysis, and template structure are in [`skill/references/`](skill/references/).
 
 **To install the skill:** symlink or copy `skill/` to `~/.claude/skills/brand-audit/`.
 
-### Option 2: React App
+### React App (not yet built)
 
-The React frontend is a dashboard for viewing and managing audits. Clients see their report rendered in the app — scores, findings, presence inventory, actions, everything.
-
-```bash
-npm install
-npm run dev
-```
-
-**Dashboard** — lists all audits with status (intake / discovered / drafted / deployed), average score, and quick links.
-
-**Audit View** — the full report: executive summary with callout blocks, scorecard grid, website overview cards, presence inventory table with status badges, detailed findings with evidence, prioritised action lists with numbered items, content strategy cards, existing strengths, and a copy-to-clipboard Claude prompt for the business owner to self-serve fixes.
-
-**JSON Import** — paste `audit-data.json` contents directly into the app to load an audit. No backend needed — everything runs from localStorage.
+The React frontend will be a dashboard for viewing and managing audits - importing JSON, browsing reports, sharing links. Component scaffolding exists in `src/` but hasn't been built out to match the current report design yet. The HTML report generator is the production path for now.
 
 ---
 
@@ -73,13 +82,13 @@ npm run dev
 
 ```
 discover                          draft                        deploy
-────────                          ─────                        ──────
-┌─────────────────┐              ┌──────────────────┐         ┌──────────┐
-│ scan-website.mjs │──┐          │ Claude Judgment   │         │ deploy.sh│
-│ check-presence   │──┼──> audit-data.json ──> │ scores, findings │──> HTML ──> │ Vercel   │
-│ check-pagespeed  │──┤          │ actions, summary  │         │ live URL │
-│ Claude+Perplexity│──┘          │ generate-report   │         └──────────┘
-└─────────────────┘              └──────────────────┘
+--------                          -----                        ------
++------------------+              +-------------------+         +----------+
+| scan-website.mjs |--+          | Claude Judgment    |         | deploy.sh|
+| check-presence   |--+-> audit-data.json -> | scores, findings  |-> HTML -> | Vercel   |
+| check-pagespeed  |--+          | actions, summary   |         | live URL |
+| Claude+Perplexity|--+          | generate-report    |         +----------+
++------------------+              +-------------------+
 ```
 
 **What's a script vs what stays in Claude:**
@@ -102,7 +111,7 @@ discover                          draft                        deploy
 
 ## Scripts
 
-All scripts use **zero external dependencies** — Node.js built-ins only (`node:https`, `node:url`, `node:fs`).
+All scripts use **zero external dependencies** - Node.js built-ins only (`node:https`, `node:url`, `node:fs`).
 
 ### scan-website.mjs
 
@@ -134,7 +143,7 @@ Wraps Google PageSpeed Insights API (free, no key needed). Returns: mobile perfo
 node scripts/generate-report.mjs data/willow-leather/audit-data.json
 ```
 
-Takes `audit-data.json`, produces a self-contained HTML report at `reports/{slug}/audit-report.html`. The output is identical in design to the manually-crafted originals — same CSS, same components, same typography, same colour system. Includes a copy-to-clipboard button for the Claude prompt.
+Takes `audit-data.json`, produces a self-contained HTML report at `reports/{slug}/audit-report.html`. Single file, all CSS and JS inline, Google Fonts loaded via import. Includes copy-to-clipboard for the Claude prompt section.
 
 ### deploy.sh
 
@@ -148,7 +157,7 @@ Copies the HTML report to a `public/` directory and deploys via Vercel CLI. Crea
 
 ## Schema
 
-The `audit-data.json` schema ([`schema/audit-data.schema.json`](schema/audit-data.schema.json)) is deliberately flexible — `additionalProperties: true` everywhere. The agent decides what categories to score, what findings to include, and what actions to prioritise. The schema is a guide, not a straitjacket.
+The `audit-data.json` schema ([`schema/audit-data.schema.json`](schema/audit-data.schema.json)) is deliberately flexible - `additionalProperties: true` everywhere. The agent decides what categories to score, what findings to include, and what actions to prioritise. The schema is a guide, not a straitjacket.
 
 Key sections: `meta`, `website`, `presence[]`, `findings[]` (agent-chosen categories with scores and evidence), `actions` (this_week/this_month/ninety_days), `content_strategy[]`, `strengths[]`, `executive_summary`, `claude_prompt`.
 
@@ -170,7 +179,7 @@ brand-audit-tool/
 │   ├── scan-website.mjs          # Website scanner (zero deps)
 │   ├── check-presence.mjs        # Platform presence checker (zero deps)
 │   ├── check-pagespeed.mjs       # PageSpeed API wrapper (zero deps)
-│   ├── generate-report.mjs       # JSON → styled HTML report (zero deps)
+│   ├── generate-report.mjs       # JSON -> editorial HTML report (zero deps)
 │   └── deploy.sh                 # Vercel deployment
 ├── schema/
 │   └── audit-data.schema.json    # Flexible JSON schema
@@ -183,22 +192,7 @@ brand-audit-tool/
 ├── reports/                      # Generated HTML reports
 │   └── {slug}/
 │       └── audit-report.html
-├── src/                          # React frontend (Vite + React 19)
-│   ├── App.jsx                   # Root with localStorage state
-│   ├── App.css                   # Full design system
-│   ├── lib/theme.js              # Design tokens + helpers
-│   ├── pages/
-│   │   ├── Dashboard.jsx         # Audit list + create
-│   │   └── AuditView.jsx        # Full report view + JSON import
-│   └── components/
-│       ├── ExecutiveSummary.jsx   # Callout blocks
-│       ├── Scorecard.jsx         # Score grid
-│       ├── PresenceTable.jsx     # Channel inventory table
-│       ├── Findings.jsx          # Detailed findings cards
-│       ├── Actions.jsx           # Prioritised action lists
-│       ├── ContentStrategy.jsx   # Content suggestion cards
-│       ├── ScoreBadge.jsx        # Score colour coding (0-5)
-│       └── StatusBadge.jsx       # Status indicators
+├── src/                          # React frontend (scaffolded, not yet built)
 ├── docs/
 │   └── architecture.png          # Architecture diagram
 ├── CLAUDE.md                     # Project docs for Claude Code
@@ -208,33 +202,18 @@ brand-audit-tool/
 
 ---
 
-## Design System
-
-The same design system runs across the HTML reports and the React app:
-
-| Token | Value | Use |
-|-------|-------|-----|
-| `--bg-primary` | `#faf9f7` | Cream background |
-| `--text-primary` | `#131314` | Charcoal headings |
-| `--text-secondary` | `#6b6b6f` | Body text |
-| `--text-tertiary` | `#9b9b9f` | Meta text |
-| `--accent` | `#d97757` | Terracotta links, callouts, priority numbers |
-| `--green` | `#2d8a4e` | Active/good (scores 4-5) |
-| `--yellow` | `#b8860b` | Warning (scores 2-3) |
-| `--red` | `#c4442a` | Missing/broken (scores 0-1) |
-
----
-
 ## Completed Audits
 
-These are live reports produced with this tool and its predecessors:
+Live reports produced with this tool:
 
 | Business | Type | Report |
 |----------|------|--------|
 | Willow Leather | Handmade leather goods, solo maker | [willow-leather-audit.vercel.app](https://willow-leather-audit.vercel.app) |
+| Bureau Bonanza | Design agency, Dublin/London | [bureau-bonanza-audit.vercel.app](https://bureau-bonanza-audit.vercel.app) |
 | Near Mint | Vinyl record cleaning product | [near-mint-audit.vercel.app](https://near-mint-audit.vercel.app) |
 | c/o Lampa | Luxury interior architecture | [colampa-audit.vercel.app](https://colampa-audit.vercel.app) |
-| Bureau Bonanza | Design agency, Dublin/London | [bureau-bonanza-audit.vercel.app](https://bureau-bonanza-audit.vercel.app) |
+
+Note: Willow Leather and Bureau Bonanza use the current report design. Near Mint and c/o Lampa use an earlier version.
 
 ---
 
