@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Willow Leather — Brand & Online Presence Audit</title>
+  <style>
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-primary: #faf9f7; --bg-white: #ffffff; --text-primary: #131314; --text-secondary: #6b6b6f; --text-tertiary: #9b9b9f;
+      --accent: #d97757; --accent-light: #f5ebe6; --green: #2d8a4e; --green-light: #e6f4eb; --red: #c4442a; --red-light: #fce8e4;
+      --yellow: #b8860b; --yellow-light: #fdf4e0; --border: #e8e8e5; --shadow-sm: 0 1px 3px rgba(0,0,0,0.04); --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --radius: 10px; --radius-lg: 14px;
+    }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; line-height: 1.6; }
+    .container { max-width: 920px; margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem); }
+    .report-header { padding-bottom: 3rem; margin-bottom: 3rem; border-bottom: 1px solid var(--border); }
+    .report-meta { font-size: 0.8125rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+    h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 1rem; }
+    .report-subtitle { font-size: 1.125rem; color: var(--text-secondary); line-height: 1.5; max-width: 680px; }
+    .section { margin-bottom: 3.5rem; }
+    h2 { font-size: clamp(1.375rem, 3vw, 1.75rem); font-weight: 650; letter-spacing: -0.02em; margin-bottom: 1.25rem; line-height: 1.25; }
+    h3 { font-size: 1.0625rem; font-weight: 600; margin-bottom: 0.75rem; line-height: 1.3; }
+    p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9375rem; }
+    strong { color: var(--text-primary); font-weight: 600; }
+    a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+    a:hover { border-bottom-color: var(--accent); }
+    .card { background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+    .card h3 { margin-bottom: 0.5rem; } .card p:last-child { margin-bottom: 0; }
+    .card ul { margin-left: 1rem; color: var(--text-secondary); font-size: 0.875rem; } .card li { margin-bottom: 0.375rem; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .scorecard { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .score-item { background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.125rem 1.25rem; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); }
+    .score-label { font-size: 0.875rem; font-weight: 500; color: var(--text-primary); }
+    .score-badge { font-size: 0.8125rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 100px; white-space: nowrap; }
+    .score-0, .score-1 { background: var(--red-light); color: var(--red); }
+    .score-2 { background: var(--yellow-light); color: var(--yellow); }
+    .score-3 { background: var(--yellow-light); color: var(--yellow); }
+    .score-4 { background: var(--green-light); color: var(--green); }
+    .score-5 { background: var(--green-light); color: var(--green); }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1.5rem; }
+    .table-scroll .audit-table { margin-bottom: 0; min-width: 600px; }
+    .audit-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); font-size: 0.875rem; }
+    .audit-table th { background: var(--bg-primary); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+    .audit-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+    .audit-table tr:last-child td { border-bottom: none; } .audit-table a { word-break: break-all; }
+    .status { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 100px; white-space: nowrap; }
+    .status-active { background: var(--green-light); color: var(--green); }
+    .status-stale { background: var(--yellow-light); color: var(--yellow); }
+    .status-missing { background: var(--red-light); color: var(--red); }
+    .status-broken { background: var(--red-light); color: var(--red); }
+    .priority-list { list-style: none; margin-bottom: 1.5rem; }
+    .priority-list li { padding: 1rem 1.25rem; background: var(--bg-white); border: 1px solid var(--border); margin-bottom: 0.5rem; border-radius: var(--radius); font-size: 0.9375rem; color: var(--text-secondary); box-shadow: var(--shadow-sm); display: flex; align-items: flex-start; gap: 0.75rem; }
+    .priority-list li strong { color: var(--text-primary); }
+    .priority-number { display: inline-flex; align-items: center; justify-content: center; min-width: 1.5rem; height: 1.5rem; background: var(--accent); color: white; border-radius: 100px; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+    .callout { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .callout p { color: var(--text-primary); margin-bottom: 0; font-size: 0.9375rem; } .callout strong { color: var(--accent); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    .report-footer { padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.8125rem; color: var(--text-tertiary); }
+    @media (max-width: 600px) {
+      .scorecard { grid-template-columns: 1fr; } .card-grid { grid-template-columns: 1fr; }
+      .priority-list li { font-size: 0.875rem; padding: 0.875rem 1rem; } .card ul { margin-left: 0.5rem; } h1 { font-size: 1.75rem; }
+    }
+    @media print { body { background: white; } .container { max-width: 100%; padding: 1rem; } .card, .score-item, .audit-table { box-shadow: none; } }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="report-header">
+      <div class="report-meta">Brand & Online Presence Audit &middot; February 2026</div>
+      <h1>Willow Leather</h1>
+      <p class="report-subtitle">Amber Willow makes genuinely beautiful handmade leather bags and accessories from her studio in Hertfordshire. She's been featured in Country Living, exhibited at Top Drawer (selected for the Launchpad emerging talent section), sells through Not On T...</p>
+      <p style="font-size: 0.8125rem; color: var(--text-tertiary);"><a href="https://willow-leather.com" target="_blank">https://willow-leather.com</a></p>
+    </header>
+
+    <section class="section">
+      <h2>Executive Summary</h2>
+      <div class="callout">
+        <p><strong>The core finding:</strong> Amber Willow makes genuinely beautiful handmade leather bags and accessories from her studio in Hertfordshire. She's been featured in Country Living, exhibited at Top Drawer (selected for the Launchpad emerging talent section), sells through Not On The High Street and Holly & Co, and uses quality materials — vegetable-tanned Italian leather and cactus vegan leather. The product is real. But the online presence depends almost entirely on Instagram and marketplace listings. The Shopify website needs work, there's no presence beyond Instagram, and the brand has almost no reviews visible to anyone searching online.</p>
+      </div>
+      <div class="callout">
+        <p><strong>The opportunity:</strong> Willow Leather is at a turning point. The Top Drawer Launchpad selection, the wholesale channel through Ankorstore, and stockists like Radical Living all suggest a brand that's growing. But the digital foundation isn't ready for that growth. A customer who finds the brand at a trade show or in a shop and then searches online will find a thin Shopify site, no reviews on Google or Trustpilot, no Pinterest presence, and a blog with two posts. The gap between the quality of the product and the quality of the online presence is the main thing holding this brand back.</p>
+      </div>
+      <p>Amber Willow founded Willow Leather in 2019. She has a Fashion Design degree from Northampton University and previously taught secondary school textiles. Every piece is designed and handcrafted by her — this is a genuine one-woman operation. The range spans from £10.50 leather bookmarks to £186 signature halfmoon crossbody bags, with personalisation available across most products.</p>
+    </section>
+
+    <section class="section">
+      <h2>Scorecard</h2>
+      <p>Each category scored 0–5 based on what we could find publicly.</p>
+      <div class="scorecard">
+        <div class="score-item"><span class="score-label">Broken Basics</span><span class="score-badge score-3">3 / 5</span></div>
+        <div class="score-item"><span class="score-label">Reputation &amp; Reviews</span><span class="score-badge score-1">1 / 5</span></div>
+        <div class="score-item"><span class="score-label">First Impression &amp; Brand</span><span class="score-badge score-3">3 / 5</span></div>
+        <div class="score-item"><span class="score-label">Messaging Clarity</span><span class="score-badge score-3">3 / 5</span></div>
+        <div class="score-item"><span class="score-label">Product Presentation</span><span class="score-badge score-3">3 / 5</span></div>
+        <div class="score-item"><span class="score-label">Discoverability &amp; SEO</span><span class="score-badge score-1">1 / 5</span></div>
+        <div class="score-item"><span class="score-label">Social Presence</span><span class="score-badge score-2">2 / 5</span></div>
+        <div class="score-item"><span class="score-label">Content &amp; Authority</span><span class="score-badge score-1">1 / 5</span></div>
+        <div class="score-item"><span class="score-label">Sales Channels</span><span class="score-badge score-4">4 / 5</span></div>
+        <div class="score-item"><span class="score-label">Operations Signals</span><span class="score-badge score-2">2 / 5</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Website Overview</h2>
+      <div class="card-grid">
+        <div class="card"><h3>Platform</h3><p>Shopify (Brooklyn theme)</p></div>
+        <div class="card"><h3>SSL</h3><p>Valid</p></div>
+        <div class="card"><h3>Blog</h3><p>2 posts</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Presence Inventory</h2>
+      <div class="table-scroll">
+      <table class="audit-table">
+        <thead><tr><th>Channel</th><th>URL / Handle</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Website</strong></td><td><a href="https://willow-leather.com" target="_blank">willow-leather.com</a></td><td><span class="status status-active">Active</span></td><td>Shopify (Brooklyn theme). Products, collections, basic about page. Blog with 2 posts.</td></tr>
+          <tr><td><strong>Instagram</strong></td><td><a href="https://www.instagram.com/willow.leather/" target="_blank">@willow.leather</a></td><td><span class="status status-active">Active</span></td><td>~4,695 followers. Primary social channel.</td></tr>
+          <tr><td><strong>Not On The High Street</strong></td><td><a href="https://www.notonthehighstreet.com/partners/willow" target="_blank">Willow</a></td><td><span class="status status-active">Active</span></td><td>3 years on the platform.</td></tr>
+          <tr><td><strong>Holly &amp; Co</strong></td><td><a href="https://holly.co/storefront/willow-leather" target="_blank">willow-leather</a></td><td><span class="status status-active">Active</span></td><td>65 products listed. Female Founded badge.</td></tr>
+          <tr><td><strong>Ankorstore (wholesale)</strong></td><td>—</td><td><span class="status status-active">Active</span></td><td>Wholesale channel for trade buyers.</td></tr>
+          <tr><td><strong>Top Drawer</strong></td><td><a href="https://www.topdrawer.co.uk/a-z-brands-/willow-leather" target="_blank">Top Drawer profile</a></td><td><span class="status status-active">Active</span></td><td>Launchpad selection S/S26. Confirmed for Sep 2026.</td></tr>
+          <tr><td><strong>Pinterest</strong></td><td>—</td><td><span class="status status-missing">Missing</span></td><td>No Pinterest profile. Major gap for a visual product brand.</td></tr>
+          <tr><td><strong>Facebook</strong></td><td>—</td><td><span class="status status-missing">Missing</span></td><td>No business page found. Low priority.</td></tr>
+          <tr><td><strong>TikTok</strong></td><td>—</td><td><span class="status status-missing">Missing</span></td><td>No presence. Low priority.</td></tr>
+          <tr><td><strong>Google Business</strong></td><td>—</td><td><span class="status status-missing">Missing</span></td><td>No confirmed Google Business Profile.</td></tr>
+          <tr><td><strong>Trustpilot</strong></td><td>—</td><td><span class="status status-missing">Missing</span></td><td>No Trustpilot profile. No external reviews.</td></tr>
+          <tr><td><strong>Etsy</strong></td><td>—</td><td><span class="status status-missing">Missing</span></td><td>No Etsy shop.</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section">
+      <h2>Detailed Findings</h2>
+
+      <h3>Broken Basics (Score: 3/5)</h3>
+      <div class="card">
+        <p>The fundamentals are mostly in place. The Shopify site works, products are listed with prices, payments are accepted, and there's an about page. But there are some gaps:</p>
+        <ul>
+          <li><strong>Product titles use "Best" as a prefix</strong> — e.g. "Best Handmade Leather Large Halfmoon Shoulder Bag." This is an outdated approach that looks like keyword stuffing to both customers and search engines.</li>
+          <li><strong>Blog has only 2 posts.</strong> One is "My Exciting News" and the other is about US shipping. A blog with two posts looks worse than no blog at all — it signals abandoned effort.</li>
+          <li><strong>Multiple third-party scripts may slow the site down.</strong> Google Tag Manager, Judge.me, hCaptcha, Adoric popup, Instagram feed widget, and NFCube are all loading.</li>
+          <li><strong>Meta descriptions may be missing on some pages.</strong> The homepage has a reasonable meta title but it's not clear if all collection and product pages have proper descriptions.</li>
+        </ul>
+      </div>
+
+      <h3>Reputation &amp; Reviews (Score: 1/5)</h3>
+      <div class="card">
+        <p>On-site reviews exist via Judge.me but they're invisible to anyone who hasn't already found the website. There are no reviews on Google (no listing), no Trustpilot profile, no Facebook reviews, and no Etsy reviews. Customer feedback found through research is positive — "excellent quality leather", "addicted to the accessories", quick service — but it's scattered and doing no work.</p>
+        <ul>
+          <li>No Trustpilot profile</li>
+          <li>No Google Business listing — no Google reviews possible</li>
+          <li>Judge.me reviews on-site only — not visible in search results</li>
+          <li>Positive feedback exists but is scattered across platforms with no aggregation</li>
+        </ul>
+      </div>
+
+      <h3>First Impression &amp; Brand (Score: 3/5)</h3>
+      <div class="card">
+        <p>The products themselves make a strong impression — the halfmoon bags are distinctive, the leather looks quality, the marbling technique is eye-catching. The Instagram feed shows the work well. The Shopify site is functional but the Brooklyn theme is dated. The site doesn't feel as premium as the product.</p>
+        <ul>
+          <li>Brooklyn theme is one of Shopify's older free themes</li>
+          <li>For bags at £138–£186, the website should reflect the care that goes into making them</li>
+          <li>Competitors with similar products and price points tend to have cleaner, more modern sites</li>
+        </ul>
+      </div>
+
+      <h3>Messaging Clarity (Score: 3/5)</h3>
+      <div class="card">
+        <p>The core message comes through: handmade leather bags, made in England, from good materials. What's less clear is what makes Willow Leather different from the dozens of other handmade leather brands in the UK.</p>
+        <ul>
+          <li>Marbling technique, cactus vegan leather, and personalisation are genuine differences — but they're not the headline</li>
+          <li>A first-time visitor should immediately understand why these bags are special, not just that they're handmade</li>
+        </ul>
+      </div>
+
+      <h3>Product Presentation (Score: 3/5)</h3>
+      <div class="card">
+        <p>Products are listed with prices, descriptions, and photography. The range is well structured. But product pages could do more.</p>
+        <ul>
+          <li>Lifestyle photography (bags being worn, in real settings) would help customers picture owning the product</li>
+          <li>Material close-ups showing leather grain, hand-stitching, brass hardware would justify the price</li>
+          <li>Cactus leather story deserves more space — it's unusual and most customers won't know about it</li>
+        </ul>
+      </div>
+
+      <h3>Discoverability &amp; SEO (Score: 1/5)</h3>
+      <div class="card">
+        <p>The site has very little written content for search engines to index. Two blog posts, basic product descriptions, and a short about page.</p>
+        <ul>
+          <li>For searches like "handmade leather bag UK" or "personalised leather crossbody bag", Willow Leather is unlikely to appear</li>
+          <li>No Google Business Profile means no presence in local searches or Google Maps</li>
+          <li>No Pinterest means missing one of the best places for people to find handmade goods</li>
+          <li>AI tools have very little to work with — not enough written content to be cited</li>
+        </ul>
+      </div>
+
+      <h3>Social Presence (Score: 2/5)</h3>
+      <div class="card">
+        <p>Instagram is the only active social channel with ~4,695 followers. For a handmade brand running since 2019, this is a solid but modest following.</p>
+        <ul>
+          <li>No Pinterest — the single biggest gap for a visual product brand selling bags, accessories, and gifts</li>
+          <li>Facebook and TikTok absent but lower priority for a solo maker</li>
+          <li>Pinterest and Instagram should be the focus — Pinterest sends more ready-to-purchase visitors to handmade brands than almost any other platform</li>
+        </ul>
+      </div>
+
+      <h3>Content &amp; Authority (Score: 1/5)</h3>
+      <div class="card">
+        <p>Despite genuine press features (Country Living, Hertfordshire Life) and trade show credentials (Top Drawer Launchpad), none of this appears on the website.</p>
+        <ul>
+          <li>No press page, no "As seen in" section, no mention of Top Drawer selection</li>
+          <li>Blog has two posts — two posts is worse than zero, it looks abandoned</li>
+          <li>Content that would help: leather care guides, material sourcing stories, the process of making a bag, gift guides</li>
+        </ul>
+      </div>
+
+      <h3>Sales Channels (Score: 4/5)</h3>
+      <div class="card">
+        <p>This is a genuine strength. Multiple active channels: own website, Not On The High Street (3 years), Holly & Co (65 products), Ankorstore wholesale, Radical Living stockist, and Top Drawer trade shows.</p>
+        <ul>
+          <li>For a one-woman brand, this is impressive distribution</li>
+          <li>Risk is depending too heavily on marketplaces — they take commission and own the customer relationship</li>
+          <li>The own website should come first — highest margins and brand relationship</li>
+        </ul>
+      </div>
+
+      <h3>Operations Signals (Score: 2/5)</h3>
+      <div class="card">
+        <p>The basics work: Shopify is proven, payments go through, products ship, wholesale runs through Ankorstore. Judge.me is installed for reviews.</p>
+        <ul>
+          <li>Shipping times, return policies, and personalisation turnaround aren't easy to find</li>
+          <li>For handmade products where everything is made to order, customers need to know how long things take</li>
+          <li>A clear "Handmade to order — ships in X days" message would set expectations</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section">
+      <h2>Prioritised Action List</h2>
+      <h3>Fix this week (hours each)</h3>
+      <ol class="priority-list">
+        <li><span class="priority-number">1</span><div><strong>Remove "Best" from all product titles.</strong> "Handmade Leather Large Halfmoon Crossbody Bag" is better than "Best Handmade Leather Large Halfmoon Shoulder Bag." Quick find-and-replace across product titles.</div></li>
+        <li><span class="priority-number">2</span><div><strong>Add an "As featured in" section to the homepage.</strong> Country Living logo, Hertfordshire Life logo, Top Drawer Launchpad badge. A simple row of logos above the fold instantly adds credibility.</div></li>
+        <li><span class="priority-number">3</span><div><strong>Add "Handmade to order" messaging to product pages.</strong> Clear expected dispatch time. If personalised items take longer, say so.</div></li>
+        <li><span class="priority-number">4</span><div><strong>Set up a Google Business Profile.</strong> Even for an online business, a Google Business listing adds credibility, enables reviews, and helps with local discovery.</div></li>
+        <li><span class="priority-number">5</span><div><strong>Either commit to the blog or hide it.</strong> Two posts from years ago looks abandoned. Either remove the blog link or write one fresh post about the Top Drawer experience.</div></li>
+      </ol>
+      <h3>Fix this month (1–2 days each)</h3>
+      <ol class="priority-list">
+        <li><span class="priority-number">6</span><div><strong>Set up Pinterest.</strong> This is the single most valuable new channel. Create a business account, upload product images, create boards. People on Pinterest are looking for things to buy.</div></li>
+        <li><span class="priority-number">7</span><div><strong>Set up a Trustpilot profile and start collecting reviews.</strong> After every sale, send a follow-up email asking for a review. Even 10-15 genuine reviews changes the picture completely.</div></li>
+        <li><span class="priority-number">8</span><div><strong>Write a proper "Our Story" page.</strong> The story is good: textiles teacher who chose slow fashion, taught herself leatherwork, built a brand from a Hertfordshire studio. Tell it properly.</div></li>
+        <li><span class="priority-number">9</span><div><strong>Write a "Cactus Leather" content page.</strong> Most people have never heard of Nopal cactus leather. A page explaining what it is would be interesting to read and rank well for searches.</div></li>
+        <li><span class="priority-number">10</span><div><strong>Add lifestyle photography to product pages.</strong> Show the bags being carried, worn cross-body, in real settings. Even phone photos in good light work.</div></li>
+        <li><span class="priority-number">11</span><div><strong>Review the Shopify apps and scripts.</strong> GTM, Judge.me, hCaptcha, Adoric, NFCube, Instagram feed widget — that's a lot. Run PageSpeed Insights and remove anything not pulling its weight.</div></li>
+      </ol>
+      <h3>Fix in 90 days (1 week+ each)</h3>
+      <ol class="priority-list">
+        <li><span class="priority-number">12</span><div><strong>Consider upgrading the Shopify theme.</strong> The Brooklyn theme is functional but dated. A modern theme like Dawn or Sense would better reflect the quality of the products.</div></li>
+        <li><span class="priority-number">13</span><div><strong>Build a content plan around making and materials.</strong> One blog post a month: how a bag is made, where the leather comes from, the marbling process, caring for leather.</div></li>
+        <li><span class="priority-number">14</span><div><strong>Create a press/stockist page.</strong> List all press features, trade shows, and stockists in one place. Make it easy for a journalist or buyer to see the brand's credentials.</div></li>
+        <li><span class="priority-number">15</span><div><strong>Build an email list properly.</strong> Go beyond popup capture. Give people a reason to sign up. Then send a monthly email.</div></li>
+        <li><span class="priority-number">16</span><div><strong>Write product descriptions for search engines and AI.</strong> Each product page should tell a mini-story: what it is, what leather, how it's made, how it wears over time.</div></li>
+      </ol>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section">
+      <h2>Content That Would Work for This Brand</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Making Process</h3>
+          <p>How a halfmoon bag goes from a sheet of leather to a finished product. The cutting, stitching, hardware fitting, quality check. Works on the blog, Instagram, and Pinterest.</p>
+        </div>
+        <div class="card">
+          <h3>The Cactus Leather Story</h3>
+          <p>What Nopal cactus leather is, where it comes from, how it's grown and processed, why it's a genuine alternative to traditional leather.</p>
+        </div>
+        <div class="card">
+          <h3>Leather Care Guides</h3>
+          <p>"How to care for vegetable-tanned leather" — practical, helpful, and exactly what customers search for after buying.</p>
+        </div>
+        <div class="card">
+          <h3>Gift Guides</h3>
+          <p>"Personalised leather gifts under £50", "Leather gifts for her". Pages people search for every year. Write once, update each season.</p>
+        </div>
+        <div class="card">
+          <h3>Market &amp; Trade Show Updates</h3>
+          <p>Top Drawer preparation, what it's like exhibiting, the reactions from buyers. Shows the person behind the brand.</p>
+        </div>
+        <div class="card">
+          <h3>Written for AI Tools</h3>
+          <p>Detailed product pages, an "Our Story" page, material guides, and a FAQ all give AI tools something to draw on. Right now there's not enough.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Existing Strengths to Build On</h2>
+      <div class="card">
+        <ul>
+          <li><strong>Genuine craftsmanship.</strong> Every piece handmade by one person. This isn't marketing — it's the literal business model.</li>
+          <li><strong>Distinctive product.</strong> The halfmoon crossbody bag is a signature shape. The marbled leather technique is unusual. Personalisation is available.</li>
+          <li><strong>Quality materials with a story.</strong> Vegetable-tanned Italian leather and Nopal cactus vegan leather. Both have compelling origin stories.</li>
+          <li><strong>Real press coverage.</strong> Country Living, Hertfordshire Life, The Homeworker. These are credible publications.</li>
+          <li><strong>Trade show momentum.</strong> Top Drawer Launchpad selection is a stamp of approval. Confirmed for September 2026.</li>
+          <li><strong>Multi-channel sales.</strong> Own website, NOTHS, Holly & Co, Ankorstore wholesale, Radical Living stockist. Impressive for a solo maker.</li>
+          <li><strong>Slow fashion philosophy.</strong> Fashion degree holder who chose craft over mass production. Aligns with growing demand for sustainable products.</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section">
+      <h2>Next Steps</h2>
+      <p>This audit was done from the outside — public information only. When you're ready to act on it, copy the prompt below into Claude and it will walk you through the questions and help you fix things one by one.</p>
+      <div class="card" style="position: relative;">
+        <button onclick="copyPrompt()" id="copy-btn" style="position: absolute; top: 1rem; right: 1rem; background: var(--accent); color: white; border: none; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: background 0.15s;">Copy prompt</button>
+        <h3>Paste this into Claude</h3>
+        <pre id="claude-prompt" style="background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-top: 0.75rem; font-size: 0.8125rem; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; color: var(--text-secondary); max-height: 400px; overflow-y: auto; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;">You are helping me act on a brand audit of Willow Leather, a handmade leather goods brand. The full audit is at https://willow-leather-audit.vercel.app — read it first.
+
+I'm Amber Willow. I founded Willow Leather in 2019. I make handmade leather bags and accessories from my studio in Hertfordshire using vegetable-tanned Italian leather and cactus vegan leather. I'm a one-woman operation — I design and make everything myself.
+
+Before we start fixing things, ask me these intake questions one at a time. Wait for my answer before moving to the next. Keep it conversational.
+
+INTAKE QUESTIONS:
+1. What's your best-selling product right now? Is it the halfmoon crossbody bags, the accessories, or something else? And do most sales come from your own website, Not On The High Street, or Holly &amp; Co?
+2. How do customers typically find you? Instagram, marketplaces, trade shows, word of mouth?
+3. The Top Drawer Launchpad selection — how did January go? Did you pick up new wholesale accounts or stockists?
+4. How's the cactus leather range doing compared to the Italian leather? Is there growing demand for the vegan option?
+5. Do you have a personalisation workflow? How long does a personalised order take vs a standard one?
+6. What does your making capacity look like? If a big order came in, could you fulfil it?
+7. Are you collecting customer email addresses? Do you send any emails?
+8. What's your photography setup? Do you shoot product photos yourself or professionally?
+9. How much time do you spend on Instagram each week? Would you be open to adding Pinterest?
+10. What would success look like for Willow Leather in the next 12 months?
+
+AFTER THE INTAKE:
+Once I've answered everything, summarise what you've learned and then help me work through the &quot;Fix this week&quot; actions from the audit. For each one, give me exact steps and draft any copy I need.</pre>
+      </div>
+    </section>
+
+    <footer class="report-footer">
+      <p>Willow Leather — Brand & Online Presence Audit. Prepared February 2026. This audit is based entirely on publicly available information and does not include internal business data, analytics, or financial information.</p>
+    </footer>
+  </div>
+  <script>
+  function copyPrompt() {
+    const text = document.getElementById('claude-prompt').textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      var btn = document.getElementById('copy-btn');
+      btn.textContent = 'Copied!';
+      btn.style.background = '#2d8a4e';
+      setTimeout(function() { btn.textContent = 'Copy prompt'; btn.style.background = ''; }, 2000);
+    });
+  }
+  </script>
+</body>
+</html>

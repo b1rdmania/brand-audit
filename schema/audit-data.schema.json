@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Audit Data",
+  "description": "Flexible schema for brand audit data. All sections are optional — the agent decides what matters per business. This is a guide, not a constraint.",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "business_name": { "type": "string" },
+        "slug": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "generated": { "type": "string", "format": "date" },
+        "auditor_notes": { "type": "string" }
+      },
+      "required": ["business_name", "slug", "url"]
+    },
+    "intake": {
+      "type": "object",
+      "description": "Business context from intake conversation. Freeform — agent captures what matters.",
+      "properties": {
+        "what_they_sell": { "type": "string" },
+        "target_customer": { "type": "string" },
+        "revenue_model": { "type": "string" },
+        "primary_conversion_goal": { "type": "string" },
+        "pain_points": { "type": "array", "items": { "type": "string" } },
+        "competitors_provided": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "website": {
+      "type": "object",
+      "description": "Populated by scan-website.mjs + agent observations",
+      "additionalProperties": true
+    },
+    "presence": {
+      "type": "array",
+      "description": "Each platform the business is (or should be) on",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": { "type": "string" },
+          "url": { "type": ["string", "null"] },
+          "status": { "type": "string", "enum": ["active", "stale", "missing", "broken"] },
+          "metrics": { "type": "object", "additionalProperties": true },
+          "notes": { "type": "string" }
+        },
+        "required": ["channel", "status"],
+        "additionalProperties": true
+      }
+    },
+    "reviews": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "competitors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "The heart of the audit. Each finding is a scored category with freeform evidence. Agent decides the categories — not locked to a fixed list.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string" },
+          "score": { "type": "integer", "minimum": 0, "maximum": 5 },
+          "summary": { "type": "string" },
+          "evidence": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["category", "score"],
+        "additionalProperties": true
+      }
+    },
+    "actions": {
+      "type": "object",
+      "description": "Prioritised actions grouped by timeframe",
+      "properties": {
+        "this_week": { "type": "array", "items": { "$ref": "#/$defs/action" } },
+        "this_month": { "type": "array", "items": { "$ref": "#/$defs/action" } },
+        "ninety_days": { "type": "array", "items": { "$ref": "#/$defs/action" } }
+      },
+      "additionalProperties": true
+    },
+    "content_strategy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "executive_summary": {
+      "type": "object",
+      "properties": {
+        "core_finding": { "type": "string" },
+        "opportunity": { "type": "string" },
+        "business_context": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "claude_prompt": {
+      "type": "object",
+      "description": "The copy-paste Claude prompt tailored to this business",
+      "properties": {
+        "prompt_text": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "action": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "detail": { "type": "string" },
+        "effort": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  }
+}
