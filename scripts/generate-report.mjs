@@ -122,6 +122,7 @@ const CSS = `
       font-family: var(--font-sans);
       line-height: 1.65;
       font-size: 0.9375rem;
+      -webkit-text-size-adjust: 100%;
     }
 
     .container {
@@ -831,6 +832,167 @@ const CSS = `
       overflow-y: auto;
     }
 
+    /* ─── Fix Nudge (after actions) ─── */
+
+    .fix-nudge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-light);
+      border-radius: var(--radius-lg);
+      margin-top: 2.5rem;
+    }
+
+    .fix-nudge-text {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .fix-nudge-text span {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+
+    .fix-nudge a {
+      flex-shrink: 0;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cream, #faf9f7);
+      background: var(--accent);
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .fix-nudge a:hover { background: #c4684a; transform: translateY(-1px); opacity: 1; }
+
+    @media (max-width: 700px) {
+      .fix-nudge { flex-direction: column; text-align: center; padding: 1.25rem 1.5rem; }
+    }
+
+    /* ─── Fix Package ─── */
+
+    .fix-package {
+      background: var(--bg-white);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem 3rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .fix-package-header {
+      margin-bottom: 2rem;
+    }
+
+    .fix-package-header h2 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .fix-package-header p {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    .fix-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .fix-column-label {
+      font-family: var(--font-sans);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .fix-column-label.automate { color: var(--accent); border-bottom-color: var(--accent-light); }
+    .fix-column-label.deliver { color: var(--yellow); border-bottom-color: var(--yellow-light); }
+    .fix-column-label.followup { color: var(--green); border-bottom-color: var(--green-light); }
+
+    .fix-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .fix-list li {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .fix-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.45rem;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .fix-column.automate .fix-list li::before { background: var(--accent); }
+    .fix-column.deliver .fix-list li::before { background: var(--yellow); }
+    .fix-column.followup .fix-list li::before { background: var(--green); }
+
+    .fix-cta {
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .fix-cta a {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.875rem 2.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .fix-cta a:hover { background: #c4684a; transform: translateY(-1px); opacity: 1; }
+
+    .fix-cta p {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      margin-top: 0.75rem;
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 700px) {
+      .fix-package { padding: 1.5rem; }
+      .fix-columns { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
     /* ─── Divider ─── */
 
     .divider {
@@ -1207,6 +1369,18 @@ function renderActions(actions) {
   return html;
 }
 
+function renderFixNudge(fixPackage) {
+  if (!fixPackage) return '';
+
+  return `
+      <div class="fix-nudge">
+        <div class="fix-nudge-text">
+          Don't want to do this yourself? <span>We'll handle it.</span>
+        </div>
+        <a href="#fix-package">See how we'd fix it</a>
+      </div>`;
+}
+
 function renderContentStrategy(items) {
   if (!items?.length) return '';
 
@@ -1251,14 +1425,64 @@ function renderClaudePrompt(prompt) {
 
   return `
     <section class="section">
-      <h2>Next Steps</h2>
-      <p>This audit used public information only. When you're ready to act on it, copy the prompt below into Claude and it will walk you through everything.</p>
+      <h2>Do it yourself</h2>
+      <p>Want to tackle this on your own? Copy the prompt below into Claude and it will walk you through everything step by step.</p>
       <div class="prompt-card">
         <button onclick="copyPrompt()" id="copy-btn" class="copy-btn">Copy prompt</button>
         <h3>Paste this into Claude</h3>
         <pre class="prompt-pre" id="claude-prompt">${esc(prompt.prompt_text)}</pre>
       </div>
     </section>`;
+}
+
+function renderFixPackage(fixPackage) {
+  if (!fixPackage) return '';
+
+  const intro = fixPackage.intro || 'Based on this audit, here\'s how we\'d attack the fixes.';
+
+  function renderColumn(items, label, className) {
+    if (!items?.length) return '';
+    const lis = items.map(item => `            <li>${esc(item)}</li>`).join('\n');
+    return `
+          <div class="fix-column ${className}">
+            <div class="fix-column-label ${className}">${esc(label)}</div>
+            <ul class="fix-list">
+${lis}
+            </ul>
+          </div>`;
+  }
+
+  let html = `
+    <section class="section" id="fix-package">
+      <div class="fix-package">
+        <div class="fix-package-header">
+          <h2>Or let us fix it</h2>
+          <p>${esc(intro)}</p>
+        </div>
+        <div class="fix-columns">`;
+
+  html += renderColumn(fixPackage.we_automate, 'We automate', 'automate');
+  html += renderColumn(fixPackage.we_deliver, 'We deliver to you', 'deliver');
+  html += renderColumn(fixPackage.follow_up, 'Follow-up actions', 'followup');
+
+  html += `
+        </div>`;
+
+  if (fixPackage.cta_url) {
+    const ctaText = fixPackage.cta_text || 'Get the fixes — £499';
+    const ctaNote = fixPackage.cta_note || 'Everything written in your voice. Delivered in a week.';
+    html += `
+        <div class="fix-cta">
+          <a href="${esc(fixPackage.cta_url)}">${esc(ctaText)}</a>
+          <p>${esc(ctaNote)}</p>
+        </div>`;
+  }
+
+  html += `
+      </div>
+    </section>`;
+
+  return html;
 }
 
 function renderFooter(meta) {
@@ -1287,7 +1511,7 @@ const COPY_JS = `
 // ─── Main ──────────────────────────────────────────────────────────────
 
 function generateReport(data) {
-  const { meta, executive_summary, findings, website, presence, actions, content_strategy, strengths, claude_prompt } = data;
+  const { meta, executive_summary, findings, website, presence, actions, content_strategy, strengths, claude_prompt, fix_package } = data;
 
   const hasPrompt = claude_prompt?.prompt_text;
 
@@ -1304,6 +1528,7 @@ function generateReport(data) {
   <div class="container">
 ${renderHeader(meta)}
 ${renderHealthHero(findings, executive_summary)}
+${renderFixNudge(fix_package)}
 ${renderExecutiveSummary(executive_summary)}
 ${renderFindings(findings)}
 
@@ -1317,6 +1542,9 @@ ${renderPresenceGrid(presence)}
     <hr class="divider">
 ${renderContentStrategy(content_strategy)}
 ${renderStrengths(strengths)}
+
+    <hr class="divider">
+${renderFixPackage(fix_package)}
 
     <hr class="divider">
 ${renderClaudePrompt(claude_prompt)}

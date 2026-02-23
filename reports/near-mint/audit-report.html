@@ -43,6 +43,7 @@
       font-family: var(--font-sans);
       line-height: 1.65;
       font-size: 0.9375rem;
+      -webkit-text-size-adjust: 100%;
     }
 
     .container {
@@ -752,6 +753,167 @@
       overflow-y: auto;
     }
 
+    /* ─── Fix Nudge (after actions) ─── */
+
+    .fix-nudge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-light);
+      border-radius: var(--radius-lg);
+      margin-top: 2.5rem;
+    }
+
+    .fix-nudge-text {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .fix-nudge-text span {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+
+    .fix-nudge a {
+      flex-shrink: 0;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cream, #faf9f7);
+      background: var(--accent);
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .fix-nudge a:hover { background: #c4684a; transform: translateY(-1px); opacity: 1; }
+
+    @media (max-width: 700px) {
+      .fix-nudge { flex-direction: column; text-align: center; padding: 1.25rem 1.5rem; }
+    }
+
+    /* ─── Fix Package ─── */
+
+    .fix-package {
+      background: var(--bg-white);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem 3rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .fix-package-header {
+      margin-bottom: 2rem;
+    }
+
+    .fix-package-header h2 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .fix-package-header p {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    .fix-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .fix-column-label {
+      font-family: var(--font-sans);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .fix-column-label.automate { color: var(--accent); border-bottom-color: var(--accent-light); }
+    .fix-column-label.deliver { color: var(--yellow); border-bottom-color: var(--yellow-light); }
+    .fix-column-label.followup { color: var(--green); border-bottom-color: var(--green-light); }
+
+    .fix-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .fix-list li {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .fix-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.45rem;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .fix-column.automate .fix-list li::before { background: var(--accent); }
+    .fix-column.deliver .fix-list li::before { background: var(--yellow); }
+    .fix-column.followup .fix-list li::before { background: var(--green); }
+
+    .fix-cta {
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .fix-cta a {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.875rem 2.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .fix-cta a:hover { background: #c4684a; transform: translateY(-1px); opacity: 1; }
+
+    .fix-cta p {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      margin-top: 0.75rem;
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 700px) {
+      .fix-package { padding: 1.5rem; }
+      .fix-columns { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
     /* ─── Divider ─── */
 
     .divider {
@@ -826,6 +988,13 @@
         <p class="finding-text">The brand operates across two valuable areas — a well-reviewed cleaning product and UK record fairs — but doesn't showcase either effectively online.</p>
       </div>
     </div>
+
+      <div class="fix-nudge">
+        <div class="fix-nudge-text">
+          Don't want to do this yourself? <span>We'll handle it.</span>
+        </div>
+        <a href="#fix-package">See how we'd fix it</a>
+      </div>
 
     <section class="section">
       <p style="font-family: var(--font-serif); font-size: 1.0625rem; line-height: 1.7; color: var(--text-secondary);">Near Mint has achieved strong retail distribution — Rough Trade, Phonica, Juno, Bleep — but the website doesn't reflect this credibility. The site feels like an afterthought despite real product and community strength.</p>
@@ -1267,9 +1436,62 @@
 
     <hr class="divider">
 
+    <section class="section" id="fix-package">
+      <div class="fix-package">
+        <div class="fix-package-header">
+          <h2>Or let us fix it</h2>
+          <p>Your audit scored 2.3 out of 5. The product and distribution are exceptional — Rough Trade, Phonica, Proper Music Group, Gilles Peterson endorsement. But the website doesn't reflect any of it. Here's what we'd fix.</p>
+        </div>
+        <div class="fix-columns">
+          <div class="fix-column automate">
+            <div class="fix-column-label automate">We automate</div>
+            <ul class="fix-list">
+            <li>Fix Twin Pack 404 and Privacy Policy 404 via Shopify API</li>
+            <li>Rewrite product page with size, contents, usage instructions, FAQs, and before/after structure</li>
+            <li>Move testimonials (Gilles Peterson, DJ Format, Phil Barton) onto product page near Add to Cart</li>
+            <li>Convert stockists image to searchable text list with links</li>
+            <li>Add 'As stocked in' retailer logos section to homepage (Rough Trade, Phonica, Juno, Bleep)</li>
+            <li>Write homepage headline and value proposition</li>
+            <li>Write About page featuring Russ Ryan — Discogs staff, Soho Radio, Glastonbury DJ</li>
+            <li>Write meta titles and descriptions for every page</li>
+            <li>Generate JSON-LD structured data (Product schema, LocalBusiness)</li>
+            <li>Write 'How to Clean Vinyl Records' SEO guide</li>
+            <li>Set up Google Business Profile via API</li>
+            <li>Set up Trustpilot profile and configure post-purchase review request emails in Shopify</li>
+            <li>Write cactus-leather-equivalent content: 'Why Near Mint Works' product science page</li>
+            <li>Build out Record Fairs page with upcoming dates and event structure</li>
+            </ul>
+          </div>
+          <div class="fix-column deliver">
+            <div class="fix-column-label deliver">We deliver to you</div>
+            <ul class="fix-list">
+            <li>Brand voice guide based on existing copy and Russ's tone</li>
+            <li>Before/after photography shot list for product demos</li>
+            <li>TikTok content plan — vinyl cleaning format that's proven on the platform</li>
+            </ul>
+          </div>
+          <div class="fix-column followup">
+            <div class="fix-column-label followup">Follow-up actions</div>
+            <ul class="fix-list">
+            <li>Launch TikTok with before/after cleaning videos (needs Russ on camera)</li>
+            <li>Start YouTube channel — product demos, fair recaps, cleaning tutorials</li>
+            <li>Revive shop spotlight blog — monthly stockist features</li>
+            <li>Optimise for brand keywords: 'Near Mint 360', 'vinyl record cleaning solution UK'</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fix-cta">
+          <a href="https://landing-boom-test-c54cde04.vercel.app#waitlist">Get the fixes — £499</a>
+          <p>You grant us Shopify collaborator access. We do the rest. Delivered in a week.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
     <section class="section">
-      <h2>Next Steps</h2>
-      <p>This audit used public information only. When you're ready to act on it, copy the prompt below into Claude and it will walk you through everything.</p>
+      <h2>Do it yourself</h2>
+      <p>Want to tackle this on your own? Copy the prompt below into Claude and it will walk you through everything step by step.</p>
       <div class="prompt-card">
         <button onclick="copyPrompt()" id="copy-btn" class="copy-btn">Copy prompt</button>
         <h3>Paste this into Claude</h3>

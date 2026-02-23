@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works — Brand Audit Tool</title>
+  <meta name="description" content="We scan every page, every platform, every signal an AI agent would use to decide whether to recommend your business. Then we fix what's broken.">
+  <meta property="og:title" content="How It Works — Brand Audit Tool">
+  <meta property="og:description" content="We scan every page, every platform, every signal an AI agent would use to decide whether to recommend your business.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #faf9f7;
+      --charcoal: #131314;
+      --terracotta: #d97757;
+      --text-secondary: #55555a;
+      --text-tertiary: #9b9b9f;
+      --border: #e8e8e5;
+      --warm-white: #ffffff;
+      --green: #2d8a4e;
+      --green-light: #e6f4eb;
+      --yellow: #b8860b;
+      --yellow-light: #fdf4e0;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--cream);
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ── Noise texture ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes drawLine {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .animate-d1 { animation-delay: 0.1s; }
+    .animate-d2 { animation-delay: 0.25s; }
+    .animate-d3 { animation-delay: 0.4s; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cream);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--border); }
+
+    .nav-mark {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--charcoal); }
+    .nav-link.active { color: var(--charcoal); border-bottom: 1.5px solid var(--charcoal); padding-bottom: 2px; }
+
+    .nav-cta {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .nav-cta:hover { border-bottom-color: var(--terracotta); }
+
+    /* ── Page header ── */
+    .page-header {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 140px 40px 60px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      margin-bottom: 20px;
+    }
+
+    .page-header p {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    .divider-line {
+      height: 1px;
+      background: var(--border);
+      transform-origin: left;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 40px;
+    }
+
+    /* ── Content sections ── */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    .content h2 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: -0.015em;
+      margin-bottom: 12px;
+    }
+
+    .content h3 {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+      margin-top: 36px;
+    }
+
+    .content h3:first-of-type { margin-top: 0; }
+
+    .content p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .content p:last-child { margin-bottom: 0; }
+
+    .prose {
+      max-width: 640px;
+    }
+
+    /* ── Audit checklist ── */
+    .check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--charcoal);
+      padding: 12px 16px;
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .check-item::before {
+      content: '';
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      margin-top: 5px;
+    }
+
+    /* ── Report preview ── */
+    .report-preview {
+      margin-top: 32px;
+    }
+
+    .report-preview a {
+      display: block;
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px 36px;
+      text-decoration: none;
+      color: var(--charcoal);
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+    .report-preview a:hover {
+      box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+
+    .report-preview .eyebrow {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 12px;
+    }
+
+    .report-preview h4 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .report-preview p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .report-preview .link-text {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--terracotta);
+    }
+
+    /* ── Fix process ── */
+    .fix-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-top: 28px;
+    }
+
+    .fix-step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 20px;
+    }
+
+    .fix-step-num {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--warm-white);
+      border: 1.5px solid var(--terracotta);
+      border-radius: 50%;
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--terracotta);
+      flex-shrink: 0;
+    }
+
+    .fix-step h3 {
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+    .fix-step p {
+      margin-bottom: 0;
+    }
+
+    /* ── Voice section ── */
+    .voice-callout {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-top: 28px;
+    }
+
+    .voice-callout h3 {
+      margin-top: 0;
+      color: var(--terracotta);
+    }
+
+    /* ── Platform tags ── */
+    .platform-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .platform-tag {
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .platform-tag.green { border-color: #c8e6d0; color: var(--green); background: #f0f9f2; }
+    .platform-tag.amber { border-color: #f0deb0; color: var(--yellow); background: #fdf8ed; }
+
+    /* ── Tech section (dark) ── */
+    .tech-section {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 80px 40px;
+    }
+
+    .tech-section .content-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .tech-section .section-label {
+      color: var(--terracotta);
+      opacity: 0.8;
+    }
+
+    .tech-section h2 {
+      color: var(--cream);
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: -0.015em;
+      margin-bottom: 12px;
+    }
+
+    .tech-section .intro-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #a0a0a3;
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .tech-card {
+      background: #1c1c1f;
+      border: 1px solid #2a2a2d;
+      border-radius: 10px;
+      padding: 24px 28px;
+      transition: border-color 0.3s;
+    }
+
+    .tech-card:hover {
+      border-color: #3a3a3d;
+    }
+
+    .tech-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 8px;
+      margin-top: 0;
+    }
+
+    .tech-card p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #8a8a8e;
+      margin-bottom: 0;
+    }
+
+    .tech-card .tech-tag {
+      display: inline-block;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.68rem;
+      color: var(--terracotta);
+      background: rgba(217, 119, 87, 0.1);
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 600px) {
+      .tech-section { padding: 60px 24px; }
+      .tech-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Bottom CTA ── */
+    .bottom-cta {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .bottom-cta-inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .bottom-cta h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+
+    .bottom-cta p {
+      color: #a0a0a3;
+      margin-bottom: 32px;
+    }
+
+    .bottom-cta .btn {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      background: var(--cream);
+      padding: 16px 36px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .bottom-cta .btn:hover { transform: translateY(-1px); }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 48px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--charcoal); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      nav { padding: 16px 24px; }
+      .nav-links { gap: 16px; }
+      .page-header { padding: 120px 24px 48px; }
+      .content { padding: 60px 24px; }
+      .check-grid { grid-template-columns: 1fr; }
+      .report-preview a { padding: 24px; }
+      .bottom-cta { padding: 60px 24px; }
+      footer { padding: 36px 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .divider { padding: 0 24px; }
+      .voice-callout { padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a href="/" class="nav-mark">Brand Audit Tool</a>
+    <div class="nav-links">
+      <a href="/how-it-works" class="nav-link active">How it works</a>
+      <a href="/#waitlist" class="nav-cta">Join waitlist</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="page-header">
+    <h1 class="animate">What we actually do</h1>
+    <p class="animate animate-d2">People are increasingly asking AI for recommendations instead of Googling. "Find me a leather bag maker in the UK." "What's the best design studio in Dublin?" If your business doesn't have enough information online, the AI has nothing to work with &mdash; and you don't get recommended. We fix that.</p>
+  </section>
+
+  <div class="divider"><div class="divider-line animate animate-d3"></div></div>
+
+  <!-- Step 1: The Audit -->
+  <section class="content">
+    <div class="section-label reveal">Step 1</div>
+    <div class="prose">
+      <h2>We audit your online presence</h2>
+      <p>We check every signal an AI agent would use to decide whether to recommend you. Not just your website &mdash; every platform, every listing, every piece of metadata.</p>
+    </div>
+
+    <div class="check-grid reveal">
+      <div class="check-item">Website content &amp; structure</div>
+      <div class="check-item">Meta tags &amp; structured data</div>
+      <div class="check-item">Google Business Profile</div>
+      <div class="check-item">PageSpeed &amp; mobile performance</div>
+      <div class="check-item">Social media presence</div>
+      <div class="check-item">Review sites (Trustpilot, Google)</div>
+      <div class="check-item">Directory listings</div>
+      <div class="check-item">Blog &amp; content quality</div>
+      <div class="check-item">Product page depth</div>
+      <div class="check-item">SEO &amp; AI discoverability</div>
+      <div class="check-item">Brand messaging clarity</div>
+      <div class="check-item">Competitor comparison</div>
+    </div>
+
+    <p class="reveal" style="margin-top: 28px;">Every check is scored 0&ndash;5 with specific evidence. The report tells you exactly what's broken and why it matters &mdash; in plain English, not marketing jargon.</p>
+  </section>
+
+  <div class="divider"><div class="divider-line reveal"></div></div>
+
+  <!-- Step 2: The Report -->
+  <section class="content">
+    <div class="section-label reveal">Step 2</div>
+    <div class="prose">
+      <h2>You get a report you can actually read</h2>
+      <p>Not a 50-page PDF full of charts. A single page with a health score, category-by-category findings, and a prioritised action list &mdash; what to fix this week, this month, and over 90 days.</p>
+    </div>
+
+    <div class="report-preview reveal">
+      <a href="https://willow-leather-audit.vercel.app" target="_blank">
+        <div class="eyebrow">Real audit</div>
+        <h4>Willow Leather</h4>
+        <p>Handmade leather goods, solo maker. Scored 2.3/5 &mdash; strong product and distribution, but the website and online presence weren't keeping up.</p>
+        <span class="link-text">View the full report &rarr;</span>
+      </a>
+    </div>
+
+    <div class="prose reveal" style="margin-top: 32px;">
+      <h3>What each report covers</h3>
+      <p>Health score with overall grade. Executive summary of the core problem. Scored findings with expandable evidence for each category. Prioritised actions grouped by urgency. Website overview and platform inventory. Content strategy matched to your strengths. And a ready-to-use prompt if you want to tackle it yourself with Claude.</p>
+    </div>
+  </section>
+
+  <div class="divider"><div class="divider-line reveal"></div></div>
+
+  <!-- Step 3: The Fix -->
+  <section class="content">
+    <div class="section-label reveal">Step 3</div>
+    <div class="prose">
+      <h2>We fix what's broken</h2>
+      <p>This is the part most people can't do themselves. You grant us collaborator access to your platforms, and we implement every fix from the audit. No guides to follow, no copy to paste &mdash; we do the work.</p>
+    </div>
+
+    <div class="fix-steps reveal">
+      <div class="fix-step">
+        <div class="fix-step-num">1</div>
+        <div>
+          <h3>You grant us access</h3>
+          <p>Shopify collaborator, Google Business manager, social media access &mdash; whatever the audit flagged. We only touch what's in the report.</p>
+        </div>
+      </div>
+      <div class="fix-step">
+        <div class="fix-step-num">2</div>
+        <div>
+          <h3>We extract your voice</h3>
+          <p>Before writing anything, we analyse your existing copy &mdash; website, social posts, however you actually write. Everything we produce sounds like you, not like AI.</p>
+        </div>
+      </div>
+      <div class="fix-step">
+        <div class="fix-step-num">3</div>
+        <div>
+          <h3>We implement the fixes</h3>
+          <p>Product descriptions, meta tags, structured data, Google Business profiles, social bios, directory listings, blog posts, case studies. All done directly via APIs and platform access.</p>
+        </div>
+      </div>
+      <div class="fix-step">
+        <div class="fix-step-num">4</div>
+        <div>
+          <h3>You review and approve</h3>
+          <p>Nothing goes live without your sign-off. We deliver everything for review, you approve, we publish. The whole thing takes about a week.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="voice-callout reveal">
+      <h3>Your voice, not AI slop</h3>
+      <p>Every piece of content runs through a voice extraction first. We analyse how you actually write &mdash; your website, your social posts, your emails &mdash; and build a voice profile. New product descriptions, About pages, and blog posts sound like you wrote them.</p>
+    </div>
+  </section>
+
+  <div class="divider"><div class="divider-line reveal"></div></div>
+
+  <!-- What we can access -->
+  <section class="content">
+    <div class="section-label reveal">Platforms</div>
+    <div class="prose">
+      <h2>What we can fix directly</h2>
+      <p>With the right access, we don't just tell you what to fix &mdash; we fix it. Here's what we can work with.</p>
+    </div>
+
+    <div class="prose reveal" style="margin-top: 24px;">
+      <h3>Full API access</h3>
+      <p>We can make changes directly, no manual work needed from you.</p>
+    </div>
+    <div class="platform-tags reveal">
+      <span class="platform-tag green">Shopify</span>
+      <span class="platform-tag green">Google Business</span>
+      <span class="platform-tag green">Pinterest</span>
+      <span class="platform-tag green">Trustpilot</span>
+      <span class="platform-tag green">LinkedIn</span>
+      <span class="platform-tag green">Behance</span>
+      <span class="platform-tag green">Dribbble</span>
+    </div>
+
+    <div class="prose reveal" style="margin-top: 28px;">
+      <h3>Content we deliver ready to paste</h3>
+      <p>Some platforms don't have APIs or need account owner action. We write everything, you paste it in.</p>
+    </div>
+    <div class="platform-tags reveal">
+      <span class="platform-tag amber">Cargo</span>
+      <span class="platform-tag amber">Squarespace</span>
+      <span class="platform-tag amber">Wix</span>
+      <span class="platform-tag amber">Etsy</span>
+      <span class="platform-tag amber">Instagram bio</span>
+      <span class="platform-tag amber">Twitter/X bio</span>
+      <span class="platform-tag amber">TikTok</span>
+    </div>
+  </section>
+
+  <!-- The Tech Nerd Bit -->
+  <section class="tech-section">
+    <div class="content-inner">
+      <div class="section-label reveal">Under the hood</div>
+      <h2 class="reveal">The tech nerd bit</h2>
+      <p class="intro-text reveal">You don't need to understand any of this. But if you're curious about what's actually happening when we audit and fix your online presence, here's the machinery.</p>
+
+      <div class="tech-grid">
+        <div class="tech-card reveal">
+          <span class="tech-tag">claude api</span>
+          <h3>AI-powered auditing</h3>
+          <p>Our scripts crawl your website, check platform APIs, and pull PageSpeed data. Claude analyses the raw data and produces scored findings with evidence &mdash; the same way a senior consultant would, except it checks hundreds of signals in minutes.</p>
+        </div>
+
+        <div class="tech-card reveal">
+          <span class="tech-tag">json-ld / open graph</span>
+          <h3>Structured data &amp; schema</h3>
+          <p>When ChatGPT answers a question about your industry, it pulls from structured data. Most small business websites have none. We generate Product, LocalBusiness, Organization, and FAQ schema and inject it directly into your site.</p>
+        </div>
+
+        <div class="tech-card reveal">
+          <span class="tech-tag">llm evaluation</span>
+          <h3>AI discoverability scoring</h3>
+          <p>Traditional SEO measures Google rankings. We also test whether AI tools can accurately describe your business, recommend you, and cite your products. If an LLM can't find enough context, you're invisible to a growing share of search.</p>
+        </div>
+
+        <div class="tech-card reveal">
+          <span class="tech-tag">nlp pipeline</span>
+          <h3>Voice extraction</h3>
+          <p>Your existing copy gets profiled for sentence structure, vocabulary, tone, and rhythm. The output is a voice model that ensures generated content matches how you actually write, not generic AI copy.</p>
+        </div>
+
+        <div class="tech-card reveal">
+          <span class="tech-tag">shopify / google / pinterest api</span>
+          <h3>Platform automation</h3>
+          <p>We use the Shopify Admin API to rewrite descriptions in place, the Google Business Profile API to create your listing, and platform-specific integrations for Pinterest, Trustpilot, and directories. Where APIs exist, we use them.</p>
+        </div>
+
+        <div class="tech-card reveal">
+          <span class="tech-tag">competitive intelligence</span>
+          <h3>Competitor analysis</h3>
+          <p>We run the same scoring pipeline against 3&ndash;5 businesses in your space, identify where they're beating you on discoverability, and prioritise your fixes based on the gaps that matter most.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="bottom-cta">
+    <div class="bottom-cta-inner">
+      <h2>Get your free audit</h2>
+      <p>Find out where you stand. We'll score your online presence and show you exactly what's missing.</p>
+      <a href="/#waitlist" class="btn">Join the waitlist</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>Built by <a href="https://github.com/b1rdmania/brand-audit">AutonoLabs</a></span>
+    <a href="https://github.com/b1rdmania/brand-audit">Open source on GitHub</a>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
