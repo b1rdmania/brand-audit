@@ -237,25 +237,29 @@ const CSS = `
 
     a:hover { opacity: 0.75; }
 
-    /* ─── Health Score Hero ─── */
+    /* ─── Intro Block (score + summary + nudge) ─── */
 
-    .health-hero {
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-      margin-bottom: 4rem;
-      padding: 2.5rem 3rem;
+    .intro-block {
       background: var(--bg-white);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-md);
+      margin-bottom: 3.5rem;
+      overflow: hidden;
+    }
+
+    .intro-score {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 2.5rem 3rem 2rem;
     }
 
     .health-ring {
       flex-shrink: 0;
       position: relative;
-      width: 160px;
-      height: 160px;
+      width: 140px;
+      height: 140px;
     }
 
     .health-ring svg {
@@ -272,20 +276,20 @@ const CSS = `
 
     .health-ring-score {
       font-family: var(--font-serif);
-      font-size: 2.75rem;
+      font-size: 2.5rem;
       font-weight: 600;
       line-height: 1;
       letter-spacing: -0.03em;
     }
 
     .health-ring-max {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-tertiary);
       font-weight: 500;
       margin-top: 0.125rem;
     }
 
-    .health-summary {
+    .intro-headline {
       flex: 1;
     }
 
@@ -297,15 +301,63 @@ const CSS = `
       letter-spacing: 0.1em;
       padding: 0.3rem 0.75rem;
       border-radius: 100px;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
-    .health-summary .finding-text {
+    .intro-headline .finding-text {
       font-family: var(--font-serif);
       font-size: 1.0625rem;
       line-height: 1.6;
       color: var(--text-secondary);
+      margin-bottom: 0;
     }
+
+    .intro-narrative {
+      padding: 0 3rem 2rem;
+    }
+
+    .intro-narrative p {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 0.875rem;
+    }
+
+    .intro-narrative p:last-child {
+      margin-bottom: 0;
+    }
+
+    .intro-nudge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1rem 3rem;
+      background: var(--accent-soft);
+      border-top: 1px solid var(--accent-light);
+    }
+
+    .intro-nudge-text {
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .intro-nudge a {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+
+    .intro-nudge a:hover { opacity: 0.7; }
+    .intro-nudge a::after { content: ' →'; }
 
     /* ─── Scorecard bars ─── */
 
@@ -832,52 +884,8 @@ const CSS = `
       overflow-y: auto;
     }
 
-    /* ─── Fix Nudge (after actions) ─── */
-
-    .fix-nudge {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      padding: 1.5rem 2rem;
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-light);
-      border-radius: var(--radius-lg);
-      margin-top: 2.5rem;
-    }
-
-    .fix-nudge-text {
-      font-family: var(--font-serif);
-      font-size: 1.0625rem;
-      color: var(--text-primary);
-      line-height: 1.5;
-    }
-
-    .fix-nudge-text span {
-      color: var(--text-secondary);
-      font-size: 0.9375rem;
-    }
-
-    .fix-nudge a {
-      flex-shrink: 0;
-      font-family: var(--font-sans);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--cream, #faf9f7);
-      background: var(--accent);
-      padding: 0.75rem 1.75rem;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-      white-space: nowrap;
-    }
-
-    .fix-nudge a:hover { background: #c4684a; transform: translateY(-1px); opacity: 1; }
-
     @media (max-width: 700px) {
-      .fix-nudge { flex-direction: column; text-align: center; padding: 1.25rem 1.5rem; }
+      .intro-nudge { flex-direction: column; text-align: center; padding: 1rem 1.5rem; gap: 0.5rem; }
     }
 
     /* ─── Fix Package ─── */
@@ -1002,6 +1010,51 @@ const CSS = `
       margin: 4rem 0;
     }
 
+    /* ─── Bottom CTA ─── */
+
+    .bottom-cta {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--charcoal);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .bottom-cta h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #faf9f7;
+      margin-bottom: 0.5rem;
+    }
+
+    .bottom-cta p {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      color: #a0a0a5;
+      margin-bottom: 1.5rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bottom-cta a {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.875rem 2.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .bottom-cta a:hover { background: #c4684a; transform: translateY(-1px); }
+
     /* ─── Footer ─── */
 
     .report-footer {
@@ -1015,13 +1068,14 @@ const CSS = `
     /* ─── Responsive ─── */
 
     @media (max-width: 700px) {
-      .health-hero {
+      .intro-score {
         flex-direction: column;
         text-align: center;
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.5rem 1.5rem;
         gap: 1.5rem;
       }
-      .health-ring { width: 130px; height: 130px; }
+      .intro-narrative { padding: 0 1.5rem 1.5rem; }
+      .health-ring { width: 120px; height: 120px; }
       .health-ring-score { font-size: 2.25rem; }
       .score-row { grid-template-columns: 140px 1fr 44px; }
       .presence-grid { grid-template-columns: 1fr; }
@@ -1033,7 +1087,7 @@ const CSS = `
     @media print {
       body { background: white; }
       .container { max-width: 100%; padding: 1rem; }
-      .health-hero, .finding-item, .stat-card, .presence-card, .action-item, .content-card, .strength-item { box-shadow: none; }
+      .intro-block, .finding-item, .stat-card, .presence-card, .action-item, .content-card, .strength-item { box-shadow: none; }
       .finding-item[open] { box-shadow: none; }
       .copy-btn { display: none; }
     }
@@ -1054,7 +1108,7 @@ function renderHeader(meta) {
     </header>`;
 }
 
-function renderHealthHero(findings, executiveSummary) {
+function renderIntroBlock(findings, executiveSummary, fixPackage) {
   if (!findings?.length) return '';
 
   const avg = averageScore(findings);
@@ -1064,7 +1118,7 @@ function renderHealthHero(findings, executiveSummary) {
   const color = gradeColor(avg);
 
   // SVG donut chart
-  const r = 68;
+  const r = 60;
   const circumference = 2 * Math.PI * r;
   const filled = (pct / 100) * circumference;
   const gap = circumference - filled;
@@ -1076,43 +1130,45 @@ function renderHealthHero(findings, executiveSummary) {
     ? `<p class="finding-text">${esc(firstSentence)}</p>`
     : '';
 
+  // Executive summary narrative
+  let narrative = '';
+  if (executiveSummary?.core_finding) {
+    narrative += `<p>${esc(executiveSummary.core_finding)}</p>`;
+  }
+  if (executiveSummary?.business_context) {
+    narrative += `<p class="exec-context">${esc(executiveSummary.business_context)}</p>`;
+  }
+
+  // Nudge strip
+  const nudge = fixPackage ? `
+      <div class="intro-nudge">
+        <span class="intro-nudge-text">Don't want to do this yourself? We'll handle it.</span>
+        <a href="#fix-package">See how we'd fix it</a>
+      </div>` : '';
+
   return `
-    <div class="health-hero">
-      <div class="health-ring">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="${r}" fill="none" stroke="var(--border-light)" stroke-width="10"/>
-          <circle cx="80" cy="80" r="${r}" fill="none" stroke="${color}" stroke-width="10"
-            stroke-dasharray="${filled.toFixed(1)} ${gap.toFixed(1)}"
-            stroke-linecap="round"/>
-        </svg>
-        <div class="health-ring-label">
-          <div class="health-ring-score" style="color: ${color}">${displayScore}</div>
-          <div class="health-ring-max">out of 5</div>
+    <div class="intro-block">
+      <div class="intro-score">
+        <div class="health-ring">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r="${r}" fill="none" stroke="var(--border-light)" stroke-width="9"/>
+            <circle cx="70" cy="70" r="${r}" fill="none" stroke="${color}" stroke-width="9"
+              stroke-dasharray="${filled.toFixed(1)} ${gap.toFixed(1)}"
+              stroke-linecap="round"/>
+          </svg>
+          <div class="health-ring-label">
+            <div class="health-ring-score" style="color: ${color}">${displayScore}</div>
+            <div class="health-ring-max">out of 5</div>
+          </div>
+        </div>
+        <div class="intro-headline">
+          <span class="health-grade" style="background: ${color}15; color: ${color}">${label}</span>
+          ${opportunity}
         </div>
       </div>
-      <div class="health-summary">
-        <span class="health-grade" style="background: ${color}15; color: ${color}">${label}</span>
-        ${opportunity}
-      </div>
+      ${narrative ? `<div class="intro-narrative">${narrative}</div>` : ''}
+      ${nudge}
     </div>`;
-}
-
-function renderExecutiveSummary(summary) {
-  if (!summary) return '';
-
-  // Core finding is the main narrative. Opportunity already shown (first sentence) in the health hero.
-  let html = `\n    <section class="section">`;
-
-  if (summary.core_finding) {
-    html += `\n      <p style="font-family: var(--font-serif); font-size: 1.0625rem; line-height: 1.7; color: var(--text-secondary);">${esc(summary.core_finding)}</p>`;
-  }
-
-  if (summary.business_context) {
-    html += `\n      <p class="exec-context">${esc(summary.business_context)}</p>`;
-  }
-
-  html += `\n    </section>`;
-  return html;
 }
 
 function renderScorecard(findings) {
@@ -1369,17 +1425,6 @@ function renderActions(actions) {
   return html;
 }
 
-function renderFixNudge(fixPackage) {
-  if (!fixPackage) return '';
-
-  return `
-      <div class="fix-nudge">
-        <div class="fix-nudge-text">
-          Don't want to do this yourself? <span>We'll handle it.</span>
-        </div>
-        <a href="#fix-package">See how we'd fix it</a>
-      </div>`;
-}
 
 function renderContentStrategy(items) {
   if (!items?.length) return '';
@@ -1485,6 +1530,18 @@ ${lis}
   return html;
 }
 
+function renderBottomCta() {
+  const landingUrl = 'https://brand-audits.vercel.app';
+  return `
+    <section class="section">
+      <div class="bottom-cta">
+        <h3>Don't want to do this yourself?</h3>
+        <p>We audit what's broken and fix it for you. Structured data, meta tags, product descriptions, Google Business — all of it.</p>
+        <a href="${landingUrl}">Find out more</a>
+      </div>
+    </section>`;
+}
+
 function renderFooter(meta) {
   const name = esc(meta?.business_name || '');
   const date = esc(meta?.generated || '');
@@ -1527,9 +1584,7 @@ function generateReport(data) {
 <body>
   <div class="container">
 ${renderHeader(meta)}
-${renderHealthHero(findings, executive_summary)}
-${renderFixNudge(fix_package)}
-${renderExecutiveSummary(executive_summary)}
+${renderIntroBlock(findings, executive_summary, fix_package)}
 ${renderFindings(findings)}
 
     <hr class="divider">
@@ -1548,6 +1603,9 @@ ${renderFixPackage(fix_package)}
 
     <hr class="divider">
 ${renderClaudePrompt(claude_prompt)}
+
+    <hr class="divider">
+${renderBottomCta()}
 ${renderFooter(meta)}
   </div>${hasPrompt ? `\n  <script>${COPY_JS}\n  </script>` : ''}
 </body>

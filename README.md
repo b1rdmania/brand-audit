@@ -1,8 +1,10 @@
 # Brand Audit Tool
 
-Most small businesses are invisible to AI. Their product pages are thin, their metadata is missing, their story isn't written down anywhere an LLM can find it. When someone asks ChatGPT for a recommendation, these businesses don't exist. And the owner was never going to fix that. They're not going to learn structured data, meta tags, and how LLMs decide what to recommend. At best they're using ChatGPT like an advanced Google to get holiday tips. They're not fixing this shit themselves.
+Most small businesses are invisible to AI. Their product pages are thin, their metadata is missing, their story isn't written down anywhere an LLM can find it. When someone asks ChatGPT for a recommendation, these businesses don't exist.
 
-This tool audits that gap and closes it. Give it a URL, get back a report scoring every dimension of online presence — not just for Google, but for the AI agents that are replacing it. Then fix what's broken, automatically.
+This tool audits that gap and closes it. Give it a URL, get back a scored report covering every dimension of online presence — not just for Google, but for the AI agents that are replacing it. Then fix what's broken, automatically.
+
+**[brand-audits.vercel.app](https://brand-audits.vercel.app)**
 
 ![Architecture](docs/architecture.png)
 
@@ -19,23 +21,31 @@ This tool audits that gap and closes it. Give it a URL, get back a report scorin
 
 ---
 
-## Roadmap
+## How It Works
 
-**Now** — Claude Code skill runs the full pipeline. React app displays reports.
+1. **Audit** — Scripts scan the website, check PageSpeed, and map presence across platforms (Google Business, Trustpilot, Pinterest, Etsy, YouTube, Companies House). Claude analyses the raw data and scores each category.
 
-**Next: Self-serve audits** — API backend that chains the scripts and Claude API. User enters a URL, gets a report back in 10-15 minutes. ~$2-5 in API cost per audit.
+2. **Report** — A single-page HTML report with health score, scored findings, prioritised actions, and a full presence grid. Not a PDF. A page you can actually read.
 
-**Then: Automated fixes** — The audit tells you what's wrong. This step fixes it. A business owner reads the report, clicks "fix these", and a Claude agent does the work — fixing meta tags, setting up Google Business, submitting sitemaps. These aren't people who were going to learn SEO and structured data on their own. They run a business. If it hasn't happened in five years, it's not going to happen now — unless someone (or something) just does it for them.
-
-All generated content runs through a brand voice extraction first. The agent analyses existing copy — website, blog posts, social captions, however the owner actually writes — and builds a voice profile before producing anything. New product descriptions, About pages, and blog posts sound like the business owner wrote them, not like AI.
-
-![Fix Engine](docs/fix-engine.png)
-
-The end goal is agent-ready brands. When someone asks ChatGPT to find a leather bag maker in the UK or asks Claude for a design studio in Dublin, the businesses we've audited and fixed actually show up — with enough context to be recommended. That's the new SEO.
+3. **Fix** — A Claude agent rewrites product descriptions, fixes meta tags, adds structured data, sets up Google Business — in the business owner's voice. What can be done via API gets automated. What can't gets delivered as a guide.
 
 ---
 
-## How to Use It
+## Roadmap
+
+**Now** — Claude Code skill runs the full pipeline. Landing page live. Reports deployed per business.
+
+**Next** — Self-serve audits. API backend that chains the scripts and Claude API. User enters a URL, gets a report back in 10-15 minutes. ~$2-5 in API cost per audit.
+
+**Then** — Automated fix packages. The audit tells you what's wrong. The fix engine handles it. Shopify Admin API for product pages, Google Business Profile API for listings, structured data injection, content generation in the owner's voice.
+
+All generated content runs through voice extraction first. The agent analyses existing copy — website, blog, social — and builds a voice profile before producing anything. It sounds like the owner wrote it, not like AI.
+
+![Fix Engine](docs/fix-engine.png)
+
+---
+
+## Usage
 
 **Claude Code Skill** — install the skill, run audits from the terminal:
 
@@ -45,4 +55,8 @@ The end goal is agent-ready brands. When someone asks ChatGPT to find a leather 
 /brand-audit deploy example-business
 ```
 
-**React App** — browser dashboard for viewing and managing audits. Import JSON, browse reports with the same editorial design. localStorage, no backend.
+**React App** — browser dashboard for viewing and managing audits. Import JSON, browse reports with the same editorial design.
+
+---
+
+Built by [AutonoLabs](https://github.com/b1rdmania/brand-audit)

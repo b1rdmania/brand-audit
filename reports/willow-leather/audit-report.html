@@ -158,25 +158,29 @@
 
     a:hover { opacity: 0.75; }
 
-    /* ─── Health Score Hero ─── */
+    /* ─── Intro Block (score + summary + nudge) ─── */
 
-    .health-hero {
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-      margin-bottom: 4rem;
-      padding: 2.5rem 3rem;
+    .intro-block {
       background: var(--bg-white);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-md);
+      margin-bottom: 3.5rem;
+      overflow: hidden;
+    }
+
+    .intro-score {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 2.5rem 3rem 2rem;
     }
 
     .health-ring {
       flex-shrink: 0;
       position: relative;
-      width: 160px;
-      height: 160px;
+      width: 140px;
+      height: 140px;
     }
 
     .health-ring svg {
@@ -193,20 +197,20 @@
 
     .health-ring-score {
       font-family: var(--font-serif);
-      font-size: 2.75rem;
+      font-size: 2.5rem;
       font-weight: 600;
       line-height: 1;
       letter-spacing: -0.03em;
     }
 
     .health-ring-max {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-tertiary);
       font-weight: 500;
       margin-top: 0.125rem;
     }
 
-    .health-summary {
+    .intro-headline {
       flex: 1;
     }
 
@@ -218,15 +222,63 @@
       letter-spacing: 0.1em;
       padding: 0.3rem 0.75rem;
       border-radius: 100px;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
-    .health-summary .finding-text {
+    .intro-headline .finding-text {
       font-family: var(--font-serif);
       font-size: 1.0625rem;
       line-height: 1.6;
       color: var(--text-secondary);
+      margin-bottom: 0;
     }
+
+    .intro-narrative {
+      padding: 0 3rem 2rem;
+    }
+
+    .intro-narrative p {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 0.875rem;
+    }
+
+    .intro-narrative p:last-child {
+      margin-bottom: 0;
+    }
+
+    .intro-nudge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1rem 3rem;
+      background: var(--accent-soft);
+      border-top: 1px solid var(--accent-light);
+    }
+
+    .intro-nudge-text {
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .intro-nudge a {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+
+    .intro-nudge a:hover { opacity: 0.7; }
+    .intro-nudge a::after { content: ' →'; }
 
     /* ─── Scorecard bars ─── */
 
@@ -753,52 +805,8 @@
       overflow-y: auto;
     }
 
-    /* ─── Fix Nudge (after actions) ─── */
-
-    .fix-nudge {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      padding: 1.5rem 2rem;
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-light);
-      border-radius: var(--radius-lg);
-      margin-top: 2.5rem;
-    }
-
-    .fix-nudge-text {
-      font-family: var(--font-serif);
-      font-size: 1.0625rem;
-      color: var(--text-primary);
-      line-height: 1.5;
-    }
-
-    .fix-nudge-text span {
-      color: var(--text-secondary);
-      font-size: 0.9375rem;
-    }
-
-    .fix-nudge a {
-      flex-shrink: 0;
-      font-family: var(--font-sans);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--cream, #faf9f7);
-      background: var(--accent);
-      padding: 0.75rem 1.75rem;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-      white-space: nowrap;
-    }
-
-    .fix-nudge a:hover { background: #c4684a; transform: translateY(-1px); opacity: 1; }
-
     @media (max-width: 700px) {
-      .fix-nudge { flex-direction: column; text-align: center; padding: 1.25rem 1.5rem; }
+      .intro-nudge { flex-direction: column; text-align: center; padding: 1rem 1.5rem; gap: 0.5rem; }
     }
 
     /* ─── Fix Package ─── */
@@ -923,6 +931,51 @@
       margin: 4rem 0;
     }
 
+    /* ─── Bottom CTA ─── */
+
+    .bottom-cta {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--charcoal);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .bottom-cta h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #faf9f7;
+      margin-bottom: 0.5rem;
+    }
+
+    .bottom-cta p {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      color: #a0a0a5;
+      margin-bottom: 1.5rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bottom-cta a {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.875rem 2.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .bottom-cta a:hover { background: #c4684a; transform: translateY(-1px); }
+
     /* ─── Footer ─── */
 
     .report-footer {
@@ -936,13 +989,14 @@
     /* ─── Responsive ─── */
 
     @media (max-width: 700px) {
-      .health-hero {
+      .intro-score {
         flex-direction: column;
         text-align: center;
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.5rem 1.5rem;
         gap: 1.5rem;
       }
-      .health-ring { width: 130px; height: 130px; }
+      .intro-narrative { padding: 0 1.5rem 1.5rem; }
+      .health-ring { width: 120px; height: 120px; }
       .health-ring-score { font-size: 2.25rem; }
       .score-row { grid-template-columns: 140px 1fr 44px; }
       .presence-grid { grid-template-columns: 1fr; }
@@ -954,7 +1008,7 @@
     @media print {
       body { background: white; }
       .container { max-width: 100%; padding: 1rem; }
-      .health-hero, .finding-item, .stat-card, .presence-card, .action-item, .content-card, .strength-item { box-shadow: none; }
+      .intro-block, .finding-item, .stat-card, .presence-card, .action-item, .content-card, .strength-item { box-shadow: none; }
       .finding-item[open] { box-shadow: none; }
       .copy-btn { display: none; }
     }
@@ -970,36 +1024,32 @@
       <span class="report-url"><a href="https://willow-leather.com" target="_blank">https://willow-leather.com</a></span>
     </header>
 
-    <div class="health-hero">
-      <div class="health-ring">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="68" fill="none" stroke="var(--border-light)" stroke-width="10"/>
-          <circle cx="80" cy="80" r="68" fill="none" stroke="var(--yellow)" stroke-width="10"
-            stroke-dasharray="196.5 230.7"
-            stroke-linecap="round"/>
-        </svg>
-        <div class="health-ring-label">
-          <div class="health-ring-score" style="color: var(--yellow)">2.3</div>
-          <div class="health-ring-max">out of 5</div>
+    <div class="intro-block">
+      <div class="intro-score">
+        <div class="health-ring">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r="60" fill="none" stroke="var(--border-light)" stroke-width="9"/>
+            <circle cx="70" cy="70" r="60" fill="none" stroke="var(--yellow)" stroke-width="9"
+              stroke-dasharray="173.4 203.6"
+              stroke-linecap="round"/>
+          </svg>
+          <div class="health-ring-label">
+            <div class="health-ring-score" style="color: var(--yellow)">2.3</div>
+            <div class="health-ring-max">out of 5</div>
+          </div>
+        </div>
+        <div class="intro-headline">
+          <span class="health-grade" style="background: var(--yellow)15; color: var(--yellow)">Work to Do</span>
+          <p class="finding-text">Willow Leather is at a turning point.</p>
         </div>
       </div>
-      <div class="health-summary">
-        <span class="health-grade" style="background: var(--yellow)15; color: var(--yellow)">Work to Do</span>
-        <p class="finding-text">Willow Leather is at a turning point.</p>
-      </div>
-    </div>
-
-      <div class="fix-nudge">
-        <div class="fix-nudge-text">
-          Don't want to do this yourself? <span>We'll handle it.</span>
-        </div>
+      <div class="intro-narrative"><p>Amber Willow makes genuinely beautiful handmade leather bags and accessories from her studio in Hertfordshire. She's been featured in Country Living, exhibited at Top Drawer (selected for the Launchpad emerging talent section), sells through Not On The High Street and Holly &amp; Co, and uses quality materials — vegetable-tanned Italian leather and cactus vegan leather. The product is real. But the online presence depends almost entirely on Instagram and marketplace listings. The Shopify website needs work, there's no presence beyond Instagram, and the brand has almost no reviews visible to anyone searching online.</p><p class="exec-context">Amber Willow founded Willow Leather in 2019. She has a Fashion Design degree from Northampton University and previously taught secondary school textiles. Every piece is designed and handcrafted by her — this is a genuine one-woman operation. The range spans from £10.50 leather bookmarks to £186 signature halfmoon crossbody bags, with personalisation available across most products.</p></div>
+      
+      <div class="intro-nudge">
+        <span class="intro-nudge-text">Don't want to do this yourself? We'll handle it.</span>
         <a href="#fix-package">See how we'd fix it</a>
       </div>
-
-    <section class="section">
-      <p style="font-family: var(--font-serif); font-size: 1.0625rem; line-height: 1.7; color: var(--text-secondary);">Amber Willow makes genuinely beautiful handmade leather bags and accessories from her studio in Hertfordshire. She's been featured in Country Living, exhibited at Top Drawer (selected for the Launchpad emerging talent section), sells through Not On The High Street and Holly &amp; Co, and uses quality materials — vegetable-tanned Italian leather and cactus vegan leather. The product is real. But the online presence depends almost entirely on Instagram and marketplace listings. The Shopify website needs work, there's no presence beyond Instagram, and the brand has almost no reviews visible to anyone searching online.</p>
-      <p class="exec-context">Amber Willow founded Willow Leather in 2019. She has a Fashion Design degree from Northampton University and previously taught secondary school textiles. Every piece is designed and handcrafted by her — this is a genuine one-woman operation. The range spans from £10.50 leather bookmarks to £186 signature halfmoon crossbody bags, with personalisation available across most products.</p>
-    </section>
+    </div>
 
     <section class="section">
       <h2>Scores &amp; Findings</h2>
@@ -1469,7 +1519,7 @@
           </div>
         </div>
         <div class="fix-cta">
-          <a href="https://landing-boom-test-c54cde04.vercel.app#waitlist">Get the fixes — £499</a>
+          <a href="https://brand-audits.vercel.app">Get the fixes — £499</a>
           <p>You grant us collaborator access. We do the rest. Delivered in a week.</p>
         </div>
       </div>
@@ -1545,6 +1595,16 @@ How to work with Amber:
 - The cactus leather story is genuinely interesting content. If she's willing, help her draft it. Where does the cactus come from? How does it feel? How does it age? This writes itself.
 - When working on the &quot;Our Story&quot; page, help her find the right tone. Not corporate. A maker talking about why she makes things.
 - The blog decision is real: two abandoned posts is worse than no blog. If she doesn't have time to write regularly, remove the link. If she does, help her write the first post about Top Drawer.</pre>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section">
+      <div class="bottom-cta">
+        <h3>Don't want to do this yourself?</h3>
+        <p>We audit what's broken and fix it for you. Structured data, meta tags, product descriptions, Google Business — all of it.</p>
+        <a href="https://brand-audits.vercel.app">Find out more</a>
       </div>
     </section>
 
